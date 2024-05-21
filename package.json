@@ -1,24 +1,21 @@
 {
   "name": "project-x-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "- **id**: Identificador único do usuário. - **nome**: Nome do usuário. - **sobrenome**: Sobrenome do usuário. - **endereco**: Endereço do usuário. - **dataNascimento**: Data de nascimento do usuário. - **email**: Endereço de e-mail do usuário. - **telefone**: Número de telefone do usuário. - **senha**: Senha do usuário. - **investimentos**: Lista de investimentos associados ao usuário. - **conta**: Conta bancária associada ao usuário.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@rocketseat/eslint-config": "^2.2.2",
-    "@types/node": "^20.12.12",
-    "eslint": "^9.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
-    "ulid": "^2.3.0",
-    "vite": "^5.2.11",
-    "vitest": "^1.6.0"
+    "ulid": "^2.3.0"
   }
 }
