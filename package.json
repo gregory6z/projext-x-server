@@ -10,12 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0"
   },
   "dependencies": {
+    "eslint": "8",
     "ulid": "^2.3.0"
   }
 }

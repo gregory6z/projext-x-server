@@ -12,8 +12,8 @@ export interface UserProps {
   email: string;
   phone: string;
   password: string;
-  investments:Investment[];
-  account: BankAccount
+  investments:Investment[] | null;
+  account: BankAccount | null
 }
 
 
