@@ -4,9 +4,9 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 export interface TransactionProps {
   transactionId: number
   accountId: number
-  type: string
+  type: "deposit" | "withdrawal"
   amount: number
-  timestamp: Date
+  createdAt: Date
 }
 
 export class Transaction extends AggregateRoot<TransactionProps> {
@@ -26,12 +26,18 @@ export class Transaction extends AggregateRoot<TransactionProps> {
     return this.props.amount
   }
 
-  get timestamp(): Date {
-    return this.props.timestamp
+  get createdAt() {
+    return this.props.createdAt
   }
 
   static create(props: TransactionProps, id?: UniqueEntityID) {
-    const transaction = new Transaction(props, id)
+    const transaction = new Transaction(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+      },
+      id,
+    )
 
     return transaction
   }

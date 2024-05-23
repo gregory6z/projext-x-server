@@ -1,8 +1,8 @@
 import { Either, left, right } from "@/core/either"
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error"
-import { User } from "../entities/user"
 import { HashGenerator } from "@/core/cryptography/hash-generator"
 import { UsersRepository } from "../repositories/users-repository"
+import { User } from "../entities/user"
 
 interface CreateUserUseCaseRequest {
   firstName: string
@@ -52,8 +52,6 @@ export class CreateUserUseCase {
       phone,
       address,
       password: hashedPassword,
-      investments: null,
-      account: null,
     })
 
     await this.userRepository.create(user)

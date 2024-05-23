@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.11",
     "eslint": "8",
     "ulid": "^2.3.0"
   }

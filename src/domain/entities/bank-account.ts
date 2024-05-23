@@ -1,28 +1,27 @@
-import { Entity } from "@/core/entities/entity"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
-import { ExternalBank } from "./external-bank"
-import { Transaction } from "./transaction"
+
+import dayjs from "dayjs"
+import { AccountNumber } from "./value-objects/account-number"
+import { Entity } from "@/core/entities/entity"
 
 export interface BankAccountProps {
-  accountId: number
-  userId: number
+  userId: string
   accountNumber: string
-  accountHolderID: string
   balance: number
-  transactions: Transaction[]
-  status: string
+
   createdAt: Date
-  updatedAt: Date
-  investments: []
-  externalBanks: ExternalBank[]
+  updatedAt?: Date | null
+}
+
+export interface BankAccountCreationProps {
+  userId: string
+  accountNumber?: string
+  balance?: number
+  createdAt?: Date
 }
 
 export class BankAccount extends Entity<BankAccountProps> {
-  get accountId(): number {
-    return this.props.accountId
-  }
-
-  get userId(): number {
+  get userId(): string {
     return this.props.userId
   }
 
@@ -30,41 +29,37 @@ export class BankAccount extends Entity<BankAccountProps> {
     return this.props.accountNumber
   }
 
-  get accountHolderID(): string {
-    return this.props.accountHolderID
-  }
-
   get balance(): number {
     return this.props.balance
   }
 
-  get transactions(): Transaction[] {
-    return this.props.transactions
-  }
-
-  get status(): string {
-    return this.props.status
+  set balance(value: number) {
+    this.props.balance = value
+    this.touch()
   }
 
   get createdAt(): Date {
     return this.props.createdAt
   }
 
-  get updatedAt(): Date {
-    return this.props.updatedAt
+  get isNew(): boolean {
+    return dayjs().diff(this.createdAt, "days") <= 3
   }
 
-  get investments(): [] {
-    return this.props.investments
+  private touch() {
+    this.props.updatedAt = new Date()
   }
 
-  get externalBanks(): ExternalBank[] {
-    return this.props.externalBanks
-  }
+  static create(props: BankAccountCreationProps, id?: UniqueEntityID) {
+    const defaultProps: BankAccountProps = {
+      accountNumber:
+        props.accountNumber ??
+        AccountNumber.createAccountNumber(props.userId).value,
+      balance: props.balance ?? 0,
+      createdAt: props.createdAt ?? new Date(),
+      userId: props.userId,
+    }
 
-  static create(props: BankAccountProps, id?: UniqueEntityID) {
-    const bankAccount = new BankAccount(props, id)
-
-    return bankAccount
+    return new BankAccount(defaultProps, id)
   }
 }

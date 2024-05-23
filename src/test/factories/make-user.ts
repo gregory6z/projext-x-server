@@ -14,8 +14,7 @@ export function makeUser(
       phone: fakerFR.phone.number(),
       birthDate: fakerFR.date.past(),
       address: fakerFR.location.streetAddress(),
-      investments: null,
-      account: null,
+
       password: fakerFR.internet.password(),
       ...override,
     },

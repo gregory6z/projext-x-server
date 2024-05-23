@@ -1,7 +1,5 @@
 import { Entity } from "@/core/entities/entity"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
-import { Investment } from "./investment"
-import { BankAccount } from "./bank-account"
 
 export interface UserProps {
   firstName: string
@@ -11,8 +9,6 @@ export interface UserProps {
   email: string
   phone: string
   password: string
-  investments: Investment[] | null
-  account: BankAccount | null
 }
 
 export class User extends Entity<UserProps> {
@@ -58,14 +54,6 @@ export class User extends Entity<UserProps> {
 
   set phone(phone: string) {
     this.props.phone = phone
-  }
-
-  get investments(): Investment[] | null {
-    return this.props.investments || null
-  }
-
-  get account(): BankAccount | null {
-    return this.props.account || null
   }
 
   static create(props: UserProps, id?: UniqueEntityID) {
