@@ -2,7 +2,7 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import { User, UserProps } from "@/domain/entities/user"
 import { fakerFR } from "@faker-js/faker"
 
-export function makeStudent(
+export function makeUser(
   override: Partial<UserProps> = {},
   id?: UniqueEntityID,
 ) {
@@ -13,7 +13,7 @@ export function makeStudent(
       email: fakerFR.internet.email(),
       phone: fakerFR.phone.number(),
       birthDate: fakerFR.date.past(),
-      address: fakerFR.address.streetAddress(),
+      address: fakerFR.location.streetAddress(),
       investments: null,
       account: null,
       password: fakerFR.internet.password(),
