@@ -2,6 +2,7 @@ import { AggregateRoot } from "@/core/entities/aggregate-root"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 
 export interface ExternalBankProps {
+  userId: string
   accountHolderName: string
   accountNumber: string
   iban: string
@@ -9,6 +10,10 @@ export interface ExternalBankProps {
 }
 
 export class ExternalBank extends AggregateRoot<ExternalBankProps> {
+  get userId(): string {
+    return this.props.userId
+  }
+
   get accountHolderName(): string {
     return this.props.accountHolderName
   }
