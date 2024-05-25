@@ -1,24 +1,36 @@
 import { Entity } from "@/core/entities/entity"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
+import dayjs from "dayjs"
 
 export interface InvestmentProps {
   name: string
   description: string
   imageUrl: string
-  investmentId: number
-  accountId: number
+
+  status: "active" | "completed" | "pending" | "cancelled"
+
   investmentType: string
   amount: number
-  quantity: number
-  purchasePricePerUnit: number
-  currentPricePerUnit: number
-  timestamp: Date
+
   annualProfit: number
-  risk: string
+
+  fundraisingProgress: {
+    numberOfWeeks: number
+    current: number
+  }
+
+  monthlyProfits: number[]
+
+  lastMonthlyProfit: number
+
   term: string
-  paymentMethod: string
-  fundraisingProgress: number
-  releaseDate: Date
+
+  risk: "low" | "medium" | "high"
+
+  endDate: Date | null
+
+  createdAt: Date
+  updatedAt?: Date | null
 }
 
 export class Investment extends Entity<InvestmentProps> {
@@ -34,40 +46,38 @@ export class Investment extends Entity<InvestmentProps> {
     return this.props.imageUrl
   }
 
-  get investmentId(): number {
-    return this.props.investmentId
-  }
-
-  get accountId(): number {
-    return this.props.accountId
-  }
-
   get investmentType(): string {
     return this.props.investmentType
+  }
+
+  get fundraisingProgress() {
+    return this.props.fundraisingProgress
+  }
+
+  set fundraisingProgress(value: { numberOfWeeks: number; current: number }) {
+    this.props.fundraisingProgress = value
+    this.touch()
   }
 
   get amount(): number {
     return this.props.amount
   }
 
-  get quantity(): number {
-    return this.props.quantity
-  }
-
-  get purchasePricePerUnit(): number {
-    return this.props.purchasePricePerUnit
-  }
-
-  get currentPricePerUnit(): number {
-    return this.props.currentPricePerUnit
-  }
-
-  get timestamp(): Date {
-    return this.props.timestamp
+  get createdAt(): Date {
+    return this.props.createdAt
   }
 
   get annualProfit(): number {
     return this.props.annualProfit
+  }
+
+  get status(): string {
+    return this.props.status
+  }
+
+  set status(value: "active" | "completed" | "pending" | "cancelled") {
+    this.props.status = value
+    this.touch()
   }
 
   get risk(): string {
@@ -78,20 +88,32 @@ export class Investment extends Entity<InvestmentProps> {
     return this.props.term
   }
 
-  get paymentMethod(): string {
-    return this.props.paymentMethod
+  get endDate(): Date | null {
+    return this.props.endDate
   }
 
-  get fundraisingProgress(): number {
-    return this.props.fundraisingProgress
+  get isNew(): boolean {
+    return dayjs().diff(this.createdAt, "days") <= 3
   }
 
-  get releaseDate(): Date {
-    return this.props.releaseDate
+  private touch() {
+    this.props.updatedAt = new Date()
   }
 
   static create(props: InvestmentProps, id?: UniqueEntityID) {
-    const investment = new Investment(props, id)
+    const investment = new Investment(
+      {
+        ...props,
+        createdAt: props.createdAt ?? new Date(),
+        risk: props.risk ?? "medium",
+        status: props.status ?? "pending",
+        fundraisingProgress: {
+          ...props.fundraisingProgress,
+          current: props.fundraisingProgress.current ?? 0,
+        },
+      },
+      id,
+    )
 
     return investment
   }

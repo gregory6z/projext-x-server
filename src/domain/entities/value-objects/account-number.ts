@@ -9,18 +9,11 @@ export class AccountNumber {
     return new AccountNumber(value)
   }
 
-  /**
-   * Receives a string and normalize it as a slug.
-   *
-   * Example: "An example title" => "an-example-title"
-   *
-   * @param text {string}
-   */
   static createAccountNumber(userId: string): AccountNumber {
     let hash = 0
-    const userIdString = userId.toString() // Convert userId to string
+    const userIdString = userId.toString()
     for (let i = 0; i < userIdString.length; i++) {
-      const char = userIdString.charCodeAt(i) // Use charCodeAt on userIdString
+      const char = userIdString.charCodeAt(i)
       hash = (hash << 5) - hash + char
       hash = hash & hash // Convert to 32bit integer
     }
