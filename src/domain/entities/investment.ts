@@ -1,6 +1,7 @@
 import { Entity } from "@/core/entities/entity"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import dayjs from "dayjs"
+import { FundraisingProgress } from "./value-objects/fundraising-progress"
 
 export interface InvestmentProps {
   name: string
@@ -10,24 +11,22 @@ export interface InvestmentProps {
   status: "active" | "completed" | "pending" | "cancelled"
 
   investmentType: string
-  amount: number
 
   annualProfit: number
 
   fundraisingProgress: {
-    numberOfWeeks: number
     current: number
+    numberOfWeeks: number
   }
 
   monthlyProfits: number[]
 
-  lastMonthlyProfit: number
-
-  term: string
+  term: number
 
   risk: "low" | "medium" | "high"
 
-  endDate: Date | null
+  startDate?: Date | null
+  endDate?: Date | null
 
   createdAt: Date
   updatedAt?: Date | null
@@ -54,13 +53,31 @@ export class Investment extends Entity<InvestmentProps> {
     return this.props.fundraisingProgress
   }
 
-  set fundraisingProgress(value: { numberOfWeeks: number; current: number }) {
-    this.props.fundraisingProgress = value
+  setFundraisingProgress() {
+    this.props.fundraisingProgress.current = FundraisingProgress.create(
+      this.createdAt,
+      this.fundraisingProgress.numberOfWeeks,
+    ).calculate()
+
     this.touch()
   }
 
-  get amount(): number {
-    return this.props.amount
+  get current() {
+    return this.props.fundraisingProgress.current
+  }
+
+  set current(value: number) {
+    this.props.fundraisingProgress.current = value
+    this.touch()
+  }
+
+  get numberOfWeeks() {
+    return this.props.fundraisingProgress.numberOfWeeks
+  }
+
+  set numberOfWeeks(value: number) {
+    this.props.fundraisingProgress.numberOfWeeks = value
+    this.touch()
   }
 
   get createdAt(): Date {
@@ -80,16 +97,30 @@ export class Investment extends Entity<InvestmentProps> {
     this.touch()
   }
 
+  get term(): number {
+    return this.props.term
+  }
+
   get risk(): string {
     return this.props.risk
   }
 
-  get term(): string {
-    return this.props.term
+  get endDate(): Date | null {
+    return this.props.endDate ?? null
   }
 
-  get endDate(): Date | null {
-    return this.props.endDate
+  get initialDate(): Date | null {
+    return this.props.endDate ?? null
+  }
+
+  set initialDate(value: Date | null) {
+    this.props.endDate = value
+    this.touch()
+  }
+
+  set endDate(value: Date | null) {
+    this.props.endDate = value
+    this.touch()
   }
 
   get isNew(): boolean {
@@ -99,6 +130,27 @@ export class Investment extends Entity<InvestmentProps> {
   private touch() {
     this.props.updatedAt = new Date()
   }
+
+  get monthlyProfits() {
+    return this.monthlyProfits
+  }
+
+  // set monthlyProfits(value: { date: Date; profitPercentage: number }[]) {
+  //   if (!this.props.startDate) {
+  //     return
+  //   }
+
+  //   const result = await MonthlyProfit.calculateNextMonthProfit({
+  //     annualProfitPercentage: this.props.annualProfit,
+  //     startDate: this.props.startDate,
+  //     term: this.props.term,
+  //     getExistingProfits: () => Promise.resolve([]),
+  //   })
+
+  //   this.props.monthlyProfits = result.monthProfit
+
+  //   this.touch()
+  // }
 
   static create(props: InvestmentProps, id?: UniqueEntityID) {
     const investment = new Investment(

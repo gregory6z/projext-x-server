@@ -20,6 +20,10 @@ export class InMemoryInvestmentRepository implements InvestmentsRepository {
     return investment
   }
 
+  async findAll() {
+    return this.items
+  }
+
   async update(investment: Investment): Promise<void> {
     const investmentIndex = this.items.findIndex(
       (item) => item.id === investment.id,

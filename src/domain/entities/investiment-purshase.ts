@@ -1,7 +1,8 @@
 export interface InvestmentPurchase {
   accountId: number
   investmentId: number
-  amount: number
+
+  InitialAmount: number
 
   paymentType: "normal" | "subscription"
   status: "pending" | "completed" | "failed"

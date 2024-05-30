@@ -39,3 +39,4 @@ lerna-debug.log*
 
 # Docker
 data
+src/domain/use-cases

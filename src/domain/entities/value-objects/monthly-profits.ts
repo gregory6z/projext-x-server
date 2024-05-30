@@ -1,43 +1,107 @@
-export class MonthlyProfits {
-  private annualProfit: number
-  private monthlyProfits: number[]
-  private monthlyAmount: number[]
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export interface MonthlyProfitProps {
+  month: Date
+  profitPercentage: number
+}
 
-  constructor(annualProfit: number, monthlyAmount: number[]) {
-    this.annualProfit = annualProfit
-    this.monthlyAmount = monthlyAmount
+export class MonthlyProfit {
+  constructor(
+    public month: Date,
+    public profitPercentage: number,
+  ) {}
 
-    this.monthlyProfits = this.calculateMonthlyProfits()
+  static *calculate({
+    annualProfitPercentage,
+    startDate,
+    term,
+  }: {
+    annualProfitPercentage: number
+    startDate: Date
+    term: number
+  }): Generator<
+    { monthProfit: MonthlyProfit; totalProfitPercentage: number },
+    void,
+    unknown
+  > {
+    const totalMonths = 12 * term
+    let totalProfitPercentage = 0
+
+    const VARIATION_PERCENTAGE = 0.02 // Aumenta a variação para 50%
+    let currentYear = startDate.getFullYear()
+
+    for (let i = 0; i < totalMonths; i++) {
+      const month = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth() + i,
+        1,
+      )
+
+      // Se o ano mudou, resetamos o contador de variações positivas
+      if (month.getFullYear() !== currentYear) {
+        currentYear = month.getFullYear()
+      }
+
+      const baseProfitPercentage = annualProfitPercentage / 12
+      const variation = VARIATION_PERCENTAGE * baseProfitPercentage // 50% de variação
+
+      let profitPercentage
+      if (month.getMonth() < 4) {
+        profitPercentage =
+          baseProfitPercentage + (Math.random() - 0.5) * 2 * variation // Aplica variação aleatória
+      } else {
+        const remainingMonths = totalMonths - i
+        const remainingProfitPercentage =
+          annualProfitPercentage - totalProfitPercentage
+        const averageRemainingProfitPercentage =
+          remainingProfitPercentage / remainingMonths
+        const negativeVariation = Math.min(
+          variation,
+          1,
+          Math.abs(averageRemainingProfitPercentage - baseProfitPercentage),
+        )
+        profitPercentage =
+          averageRemainingProfitPercentage +
+          (Math.random() - 0.5) * 2 * negativeVariation // Aplica variação aleatória
+
+        // Se a variação for positiva, incrementa o contador
+      }
+
+      const profit = new MonthlyProfit(month, profitPercentage)
+      totalProfitPercentage += profitPercentage
+
+      yield { monthProfit: profit, totalProfitPercentage }
+    }
   }
 
-  private calculateMonthlyProfits(): number[] {
-    const profits: number[] = []
-    const baseMonthlyProfit = this.annualProfit / 12
-    let currentAmount = 0
+  static calculateNextMonthProfit({
+    annualProfitPercentage,
+    startDate,
+    term,
+    getExistingProfits = () => Promise.resolve([]),
+  }: {
+    annualProfitPercentage: number
+    startDate: Date
+    term: number
+    getExistingProfits: () => Promise<MonthlyProfit[]>
+  }): Promise<{ monthProfit: MonthlyProfit; totalProfitPercentage: number }> {
+    return getExistingProfits().then((existingProfits) => {
+      const totalExistingProfitPercentage = existingProfits.reduce(
+        (total, profit) => total + profit.profitPercentage,
+        0,
+      )
 
-    for (let i = 0; i < 4; i++) {
-      const variation = Math.random() * 0.05
-      const monthlyProfit = baseMonthlyProfit + baseMonthlyProfit * variation
-      currentAmount += this.monthlyAmount[i]
-      profits.push(monthlyProfit + currentAmount)
-    }
+      const result = this.calculate({
+        annualProfitPercentage,
+        startDate,
+        term,
+      }).next().value as {
+        monthProfit: MonthlyProfit
+        totalProfitPercentage: number
+      }
 
-    for (let i = 4; i < 11; i++) {
-      const variation = (Math.random() - 0.5) * 0.1
-      const monthlyProfit = baseMonthlyProfit + baseMonthlyProfit * variation
-      currentAmount += this.monthlyAmount[i]
-      profits.push(monthlyProfit + currentAmount)
-    }
+      result.totalProfitPercentage += totalExistingProfitPercentage
 
-    // Calcula o lucro do último mês para garantir que a soma total seja igual ao lucro anual
-    const totalProfit = profits.reduce((a, b) => a + b, 0) - currentAmount
-    profits[11] = this.annualProfit - totalProfit + currentAmount
-
-    return profits
-  }
-
-  // Getter para retornar todos os lucros mensais
-  get allMonthlyProfits(): number[] {
-    return this.monthlyProfits
+      return result
+    })
   }
 }
