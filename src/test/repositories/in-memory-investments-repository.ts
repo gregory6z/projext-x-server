@@ -1,4 +1,5 @@
 import { Investment } from "@/domain/entities/investment"
+import { MonthlyProfit } from "@/domain/entities/value-objects/monthly-profits"
 import { InvestmentsRepository } from "@/domain/repositories/investiments-repository"
 
 export class InMemoryInvestmentRepository implements InvestmentsRepository {
@@ -34,5 +35,17 @@ export class InMemoryInvestmentRepository implements InvestmentsRepository {
     }
 
     this.items[investmentIndex] = investment
+  }
+
+  async getMonthlyProfits(investmentId: string): Promise<MonthlyProfit[]> {
+    const investment = this.items.find(
+      (investment) => investment.id.toString() === investmentId,
+    )
+
+    if (!investment) {
+      throw new Error(`Investment with id ${investmentId} not found`)
+    }
+
+    return investment.monthlyProfits
   }
 }

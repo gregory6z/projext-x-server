@@ -2,6 +2,7 @@ import { Entity } from "@/core/entities/entity"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import dayjs from "dayjs"
 import { FundraisingProgress } from "./value-objects/fundraising-progress"
+import { MonthlyProfit } from "./value-objects/monthly-profits"
 
 export interface InvestmentProps {
   name: string
@@ -19,7 +20,7 @@ export interface InvestmentProps {
     numberOfWeeks: number
   }
 
-  monthlyProfits: number[]
+  monthlyProfits: MonthlyProfit[]
 
   term: number
 
@@ -145,8 +146,13 @@ export class Investment extends Entity<InvestmentProps> {
     this.props.updatedAt = new Date()
   }
 
-  get monthlyProfits() {
-    return this.monthlyProfits
+  get monthlyProfits(): MonthlyProfit[] {
+    return this.props.monthlyProfits
+  }
+
+  async addMonthlyProfit(profit: MonthlyProfit): Promise<void> {
+    this.props.monthlyProfits.push(profit)
+    this.touch()
   }
 
   // set monthlyProfits(value: { date: Date; profitPercentage: number }[]) {

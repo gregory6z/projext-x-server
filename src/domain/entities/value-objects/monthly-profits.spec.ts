@@ -15,7 +15,7 @@ const profits = createProfitsObject(2)
 
 test("calculateNextMonthProfit", async () => {
   const result = await MonthlyProfit.calculateNextMonthProfit({
-    annualProfitPercentage: 0.13,
+    annualProfitPercentage: 0.5,
     startDate: new Date(2022, 2, 1),
     term: 4,
     getExistingProfits: () => Promise.resolve(profits),
