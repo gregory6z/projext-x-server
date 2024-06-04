@@ -62,6 +62,20 @@ export class Investment extends Entity<InvestmentProps> {
     this.touch()
   }
 
+  checkAndActivate() {
+    if (
+      this.props.fundraisingProgress.current === 100 &&
+      this.props.status !== "active"
+    ) {
+      const now = new Date()
+      const endDate = dayjs(now).add(this.props.term, "year").toDate()
+
+      this.props.status = "active"
+      this.props.startDate = now
+      this.props.endDate = endDate
+    }
+  }
+
   get current() {
     return this.props.fundraisingProgress.current
   }
