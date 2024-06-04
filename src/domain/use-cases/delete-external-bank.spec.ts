@@ -35,8 +35,6 @@ describe("Delete external bank account", () => {
       externalBankId: firstExternalBank.id.toString(),
     })
 
-    console.log(result)
-
     expect(result.isRight()).toBe(true)
     const deletedBank = await inMemoryUsersRepository.findById(
       firstExternalBank.id.toString(),

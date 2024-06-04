@@ -26,7 +26,7 @@ export interface InvestmentProps {
 
   risk: "low" | "medium" | "high"
 
-  startDate?: Date | null
+  initialDate?: Date | null
   endDate?: Date | null
 
   createdAt: Date
@@ -72,7 +72,7 @@ export class Investment extends Entity<InvestmentProps> {
       const endDate = dayjs(now).add(this.props.term, "year").toDate()
 
       this.props.status = "active"
-      this.props.startDate = now
+      this.props.initialDate = now
       this.props.endDate = endDate
     }
   }

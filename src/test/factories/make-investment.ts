@@ -22,7 +22,7 @@ export function makeInvestment(
       monthlyProfits: [],
       term: 1,
       risk: "low",
-      startDate: new Date(),
+      initialDate: new Date(),
       endDate: null,
       createdAt: new Date(),
       updatedAt: null,

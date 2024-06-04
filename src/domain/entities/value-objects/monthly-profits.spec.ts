@@ -20,7 +20,6 @@ test("calculateNextMonthProfit", async () => {
     term: 4,
     getExistingProfits: () => Promise.resolve(profits),
   })
-  console.log(result)
 
   expect(result).toBeDefined()
   expect(result.monthProfit).toBeInstanceOf(MonthlyProfit)

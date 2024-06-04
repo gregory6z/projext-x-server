@@ -1,4 +1,4 @@
-import { CronJob } from "cron"
+// import { CronJob } from "cron"
 import { MonthlyProfit } from "../entities/value-objects/monthly-profits"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
 
@@ -9,32 +9,38 @@ export class AddMonthlyProfitUseCase {
     const investments = await this.investmentsRepository.findAll()
 
     for (const investment of investments) {
-      if (investment.initialDate) {
-        const { monthProfit } = await MonthlyProfit.calculateNextMonthProfit({
-          annualProfitPercentage: investment.annualProfit,
-          startDate: investment.initialDate,
-          term: investment.term,
-          getExistingProfits: () =>
-            this.investmentsRepository.getMonthlyProfits(
-              investment.id.toString(),
-            ),
-        })
+      try {
+        if (investment.status === "active") {
+          const { monthProfit } = await MonthlyProfit.calculateNextMonthProfit({
+            annualProfitPercentage: investment.annualProfit,
+            startDate: investment.initialDate ?? new Date(),
+            term: investment.term,
+            getExistingProfits: () =>
+              this.investmentsRepository.getMonthlyProfits(
+                investment.id.toString(),
+              ),
+          })
 
-        await investment.addMonthlyProfit(monthProfit)
+          await investment.addMonthlyProfit(monthProfit)
 
-        // Salve o investimento atualizado no repositório
-        await this.investmentsRepository.update(investment)
+          // Salve o investimento atualizado no repositório
+          await this.investmentsRepository.update(investment)
+        }
+      } catch (error) {
+        console.error(
+          `Erro ao adicionar lucro mensal ao investimento ${investment.id}:`,
+          error,
+        )
       }
     }
   }
+  // schedule(): void {
+  //   // Cria um novo trabalho cron que será executado no primeiro dia de cada mês
+  //   const job = new CronJob("0 0 1 * *", async () => {
+  //     await this.execute()
+  //   })
 
-  schedule(): void {
-    // Cria um novo trabalho cron que será executado no primeiro dia de cada mês
-    const job = new CronJob("0 0 1 * *", async () => {
-      await this.execute()
-    })
-
-    // Inicia o trabalho cron
-    job.start()
-  }
+  //   // Inicia o trabalho cron
+  //   job.start()
+  // }
 }
