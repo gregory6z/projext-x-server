@@ -35,6 +35,8 @@ export class CreateBankAccountUseCase {
       userId: user.id.toString(),
     })
 
+    await this.bankAccountRepository.create(account)
+
     return right({
       bankAccount: account,
     })
