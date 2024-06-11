@@ -1,10 +1,11 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import { AggregateRoot } from "@/core/entities/aggregate-root"
 import dayjs from "dayjs"
+import { AmountProfit } from "./value-objects/amount-profits"
 
 export interface InvestmentPurchaseProps {
-  accountId: number
-  investmentId: number
+  accountId: string
+  investmentId: string
 
   paymentType: "normal" | "subscription"
 
@@ -15,7 +16,7 @@ export interface InvestmentPurchaseProps {
 
   initialAmount: number
 
-  // amountProfits?: AmountProfits[] | null
+  amountProfits?: AmountProfit[]
 
   // subscriptionPayments: SubscriptionPayment[]
 
@@ -24,11 +25,20 @@ export interface InvestmentPurchaseProps {
 }
 
 export class InvestmentPurchase extends AggregateRoot<InvestmentPurchaseProps> {
-  get accountId(): number {
+  get accountId(): string {
     return this.props.accountId
   }
 
-  get investmentId(): number {
+  get amountProfits(): AmountProfit[] {
+    return this.props.amountProfits ?? []
+  }
+
+  set amountProfits(amountProfits: AmountProfit[]) {
+    this.props.amountProfits = amountProfits
+    this.touch()
+  }
+
+  get investmentId(): string {
     return this.props.investmentId
   }
 
@@ -86,6 +96,7 @@ export class InvestmentPurchase extends AggregateRoot<InvestmentPurchaseProps> {
         stripeCustomerId: props.stripeCustomerId ?? null,
         stripeSubscriptionId: props.stripeSubscriptionId ?? null,
         status: props.status ?? "pending",
+        amountProfits: props.amountProfits ?? [],
       },
       id,
     )

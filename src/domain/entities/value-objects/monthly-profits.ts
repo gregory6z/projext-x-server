@@ -26,9 +26,10 @@ export class MonthlyProfit {
     const totalMonths = 12 * term
     let totalProfitPercentage = 0
 
-    const VARIATION_PERCENTAGE = 0.02 // Aumenta a variação para 50%
+    const VARIATION_PERCENTAGE = 1 // Aumenta a variação para 50%
     let currentYear = startDate.getFullYear()
 
+    // ...
     for (let i = 0; i < totalMonths; i++) {
       const month = new Date(
         startDate.getFullYear(),
@@ -36,41 +37,44 @@ export class MonthlyProfit {
         1,
       )
 
-      // Se o ano mudou, resetamos o contador de variações positivas
       if (month.getFullYear() !== currentYear) {
         currentYear = month.getFullYear()
       }
 
       const baseProfitPercentage = annualProfitPercentage / 12
-      const variation = VARIATION_PERCENTAGE * baseProfitPercentage // 50% de variação
+      const variation = VARIATION_PERCENTAGE * baseProfitPercentage
 
       let profitPercentage
-      if (month.getMonth() < 4) {
+      if (i < 3) {
+        // Garante que os três primeiros meses sejam sempre positivos
         profitPercentage =
-          baseProfitPercentage + (Math.random() - 0.5) * 2 * variation // Aplica variação aleatória
+          baseProfitPercentage + Math.abs((Math.random() - 0.5) * 2 * variation)
       } else {
         const remainingMonths = totalMonths - i
         const remainingProfitPercentage =
           annualProfitPercentage - totalProfitPercentage
         const averageRemainingProfitPercentage =
           remainingProfitPercentage / remainingMonths
-        const negativeVariation = Math.min(
+        // Aumenta a variação para permitir números negativos e subidas mais drásticas
+        const negativeVariation = Math.max(
           variation,
           1,
           Math.abs(averageRemainingProfitPercentage - baseProfitPercentage),
         )
         profitPercentage =
           averageRemainingProfitPercentage +
-          (Math.random() - 0.5) * 2 * negativeVariation // Aplica variação aleatória
-
-        // Se a variação for positiva, incrementa o contador
+          (Math.random() - 0.5) * 2 * negativeVariation
       }
+
+      // Garante que o lucro não seja mais negativo do que -0.05
+      profitPercentage = Math.max(profitPercentage, -0.1)
 
       const profit = new MonthlyProfit(month, profitPercentage)
       totalProfitPercentage += profitPercentage
 
       yield { monthProfit: profit, totalProfitPercentage }
     }
+    // ...
   }
 
   static calculateNextMonthProfit({

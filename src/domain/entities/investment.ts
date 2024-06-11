@@ -176,13 +176,15 @@ export class Investment extends Entity<InvestmentProps> {
     const investment = new Investment(
       {
         ...props,
-        createdAt: props.createdAt ?? new Date(),
+
         risk: props.risk ?? "medium",
         status: props.status ?? "pending",
         fundraisingProgress: {
-          ...props.fundraisingProgress,
+          ...(props.fundraisingProgress ?? 2),
           current: props.fundraisingProgress.current ?? 0,
         },
+        monthlyProfits: props.monthlyProfits ?? [],
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

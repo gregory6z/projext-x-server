@@ -21,4 +21,23 @@ export class InMemoryInvestmentPurchaseRepository
 
     return investmentPurchase
   }
+
+  async update(investmentPurchase: InvestmentPurchase) {
+    const index = this.items.findIndex(
+      (item) => item.id.toString() === investmentPurchase.id.toString(),
+    )
+
+    this.items[index] = investmentPurchase
+  }
+
+  async findByInvestmentId(investmentId: string) {
+    const investmentPurchase = this.items.find(
+      (item) => item.investmentId.toString() === investmentId,
+    )
+    if (!investmentPurchase) {
+      return null
+    }
+
+    return investmentPurchase
+  }
 }

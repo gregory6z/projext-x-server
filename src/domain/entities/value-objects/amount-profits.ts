@@ -1,6 +1,5 @@
-export interface AmountProfits {
+export interface AmountProfit {
   month: Date
-  startAmount: number
-  endAmount: number
+  amount: number
   profit: number
 }
