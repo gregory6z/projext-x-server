@@ -48,26 +48,27 @@ export class MonthlyProfit {
       if (i < 3) {
         // Garante que os três primeiros meses sejam sempre positivos
         profitPercentage =
-          baseProfitPercentage + Math.abs((Math.random() - 0.5) * 2 * variation)
+          baseProfitPercentage * (1 + (Math.random() - 0.5) * 2 * 0.2) // Aumenta a variação para 2%
       } else {
         const remainingMonths = totalMonths - i
         const remainingProfitPercentage =
           annualProfitPercentage - totalProfitPercentage
         const averageRemainingProfitPercentage =
           remainingProfitPercentage / remainingMonths
-        // Aumenta a variação para permitir números negativos e subidas mais drásticas
-        const negativeVariation = Math.max(
-          variation,
-          1,
-          Math.abs(averageRemainingProfitPercentage - baseProfitPercentage),
+        // Ajusta a variação para permitir números negativos e subidas mais drásticas
+        const negativeVariation = Math.min(
+          Math.max(
+            0.02, // Aumenta a variação para 2%
+            Math.abs(averageRemainingProfitPercentage - baseProfitPercentage),
+          ),
+          0.02, // Limita a variação a 2%
         )
         profitPercentage =
-          averageRemainingProfitPercentage +
-          (Math.random() - 0.5) * 2 * negativeVariation
+          averageRemainingProfitPercentage *
+          (1 + (Math.random() - 0.5) * 2 * negativeVariation)
       }
-
-      // Garante que o lucro não seja mais negativo do que -0.05
-      profitPercentage = Math.max(profitPercentage, -0.1)
+      // Garante que o lucro não seja mais negativo do que -0.02
+      profitPercentage = Math.max(profitPercentage, -0.02)
 
       const profit = new MonthlyProfit(month, profitPercentage)
       totalProfitPercentage += profitPercentage

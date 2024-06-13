@@ -9,7 +9,7 @@ export class InMemoryBankAccountsRepository implements BankAccountsRepository {
 
   async findById(bankAccountId: string) {
     const bankAccount = this.items.find(
-      (item) => item.id.toString() === bankAccountId,
+      (item) => item.accountNumber === bankAccountId,
     )
 
     if (!bankAccount) {
@@ -17,5 +17,13 @@ export class InMemoryBankAccountsRepository implements BankAccountsRepository {
     }
 
     return bankAccount
+  }
+
+  async update(bankAccount: BankAccount): Promise<void> {
+    const index = this.items.findIndex(
+      (item) => item.id.toString() === bankAccount.id.toString(),
+    )
+
+    this.items[index] = bankAccount
   }
 }

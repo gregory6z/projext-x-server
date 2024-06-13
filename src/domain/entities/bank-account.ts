@@ -3,11 +3,16 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import dayjs from "dayjs"
 import { AccountNumber } from "./value-objects/account-number"
 import { Entity } from "@/core/entities/entity"
+import { Investment } from "./investment"
 
 export interface BankAccountProps {
   userId: string
   accountNumber: string
   balance: number
+
+  availableWithdrawal: number // dinheiro disponível para saque
+
+  investments?: Investment[]
 
   createdAt: Date
   updatedAt?: Date | null
@@ -18,11 +23,24 @@ export interface BankAccountCreationProps {
   accountNumber?: string
   balance?: number
   createdAt?: Date
+
+  availableWithdrawal?: number
+
+  investments?: Investment[]
 }
 
 export class BankAccount extends Entity<BankAccountProps> {
   get userId(): string {
     return this.props.userId
+  }
+
+  get availableWithdrawal(): number {
+    return this.props.availableWithdrawal
+  }
+
+  set availableWithdrawal(value: number) {
+    this.props.availableWithdrawal = value
+    this.touch()
   }
 
   get accountNumber(): string {
@@ -46,6 +64,15 @@ export class BankAccount extends Entity<BankAccountProps> {
     return dayjs().diff(this.createdAt, "days") <= 3
   }
 
+  get investments(): Investment[] | [] {
+    return this.props.investments ?? []
+  }
+
+  set investments(investments: Investment[]) {
+    this.props.investments = investments
+    this.touch()
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -58,6 +85,8 @@ export class BankAccount extends Entity<BankAccountProps> {
       balance: props.balance ?? 0,
       createdAt: props.createdAt ?? new Date(),
       userId: props.userId,
+      investments: props.investments ?? [],
+      availableWithdrawal: props.availableWithdrawal ?? 0,
     }
 
     return new BankAccount(defaultProps, id)

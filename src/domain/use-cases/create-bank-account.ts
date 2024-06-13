@@ -33,6 +33,7 @@ export class CreateBankAccountUseCase {
 
     const account = BankAccount.create({
       userId: user.id.toString(),
+      availableWithdrawal: 0,
     })
 
     await this.bankAccountRepository.create(account)

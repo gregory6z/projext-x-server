@@ -27,7 +27,6 @@ export class AddMonthlyProfitUseCase {
 
           await investment.addMonthlyProfit(monthProfit)
 
-          // Salve o investimento atualizado no repositório
           await this.investmentsRepository.update(investment)
 
           const investmentPurchase =
@@ -35,7 +34,7 @@ export class AddMonthlyProfitUseCase {
               investment.id.toString(),
             )
 
-          if (investmentPurchase) {
+          if (investmentPurchase?.status === "completed") {
             const amountMonth = {
               month: monthProfit.month,
               amount:

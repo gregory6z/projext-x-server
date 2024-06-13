@@ -39,7 +39,7 @@ describe("AddMonthlyProfitUseCase", () => {
       status: "active",
       initialDate,
       term: 12,
-      annualProfit: 0.1,
+      annualProfit: 0.15,
       fundraisingProgress: {
         current: 100,
         numberOfWeeks: 0,
@@ -77,7 +77,7 @@ describe("AddMonthlyProfitUseCase", () => {
       status: "active",
       initialDate,
       term: 12,
-      annualProfit: 0.1,
+      annualProfit: 0.19,
       fundraisingProgress: {
         current: 100,
         numberOfWeeks: 0,
@@ -90,11 +90,12 @@ describe("AddMonthlyProfitUseCase", () => {
     const investmentPurchase = makeInvestmentPurchase({
       investmentId: investment.id.toString(),
       initialAmount: 1000,
+      status: "completed",
     })
 
     await inMemoryInvestmentPurchaseRepository.create(investmentPurchase)
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 12; i++) {
       clock.tick(1000 * 60 * 60 * 24 * 30) // Avança o tempo em um mês
       await sut.execute()
 
@@ -104,7 +105,12 @@ describe("AddMonthlyProfitUseCase", () => {
           investment.id.toString(),
         )
 
-      console.log(updatedInvestmentPurchase?.amountProfits)
+      // const finalPercentage = updatedInvestmentPurchase?.amountProfits.reduce(
+      //   (total, current) => total + current.profit,
+      //   0,
+      // )
+      console.log(investment.monthlyProfits)
+
       // Verifique se o amountProfit foi adicionado corretamente
       expect(updatedInvestmentPurchase?.amountProfits[i]).toBeDefined()
     }

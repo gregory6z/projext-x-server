@@ -16,6 +16,8 @@ export interface InvestmentPurchaseProps {
 
   initialAmount: number
 
+  totalAmount?: number
+
   amountProfits?: AmountProfit[]
 
   // subscriptionPayments: SubscriptionPayment[]
@@ -27,6 +29,17 @@ export interface InvestmentPurchaseProps {
 export class InvestmentPurchase extends AggregateRoot<InvestmentPurchaseProps> {
   get accountId(): string {
     return this.props.accountId
+  }
+
+  get totalAmount(): number {
+    let totalProfit = 0
+    if (this.props.amountProfits) {
+      for (const profitInfo of this.props.amountProfits) {
+        totalProfit += profitInfo.profit
+      }
+    }
+
+    return this.props.initialAmount + totalProfit
   }
 
   get amountProfits(): AmountProfit[] {

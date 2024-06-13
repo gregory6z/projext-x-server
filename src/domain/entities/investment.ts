@@ -66,7 +66,7 @@ export class Investment extends Entity<InvestmentProps> {
   checkAndActivate() {
     if (
       this.props.fundraisingProgress.current === 100 &&
-      this.props.status !== "active"
+      this.props.status === "pending"
     ) {
       const now = new Date()
       const endDate = dayjs(now).add(this.props.term, "year").toDate()

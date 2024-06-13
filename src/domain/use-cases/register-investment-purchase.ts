@@ -6,8 +6,8 @@ import { BankAccountsRepository } from "../repositories/bank-accounts-repository
 import { InvestmentsRepository } from "../repositories/investiments-repository"
 
 interface RegisterInvestmentPurchaseUseCaseRequest {
-  accountId: number
-  investmentId: number
+  accountId: string
+  investmentId: string
   paymentType: "normal" | "subscription"
   initialAmount: number
 }
