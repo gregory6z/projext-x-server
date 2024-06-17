@@ -8,11 +8,10 @@ import { Investment } from "./investment"
 export interface BankAccountProps {
   userId: string
   accountNumber: string
+
   balance: number
 
   availableWithdrawal: number // dinheiro disponível para saque
-
-  investments?: Investment[]
 
   createdAt: Date
   updatedAt?: Date | null
@@ -64,15 +63,6 @@ export class BankAccount extends Entity<BankAccountProps> {
     return dayjs().diff(this.createdAt, "days") <= 3
   }
 
-  get investments(): Investment[] | [] {
-    return this.props.investments ?? []
-  }
-
-  set investments(investments: Investment[]) {
-    this.props.investments = investments
-    this.touch()
-  }
-
   private touch() {
     this.props.updatedAt = new Date()
   }
@@ -85,7 +75,6 @@ export class BankAccount extends Entity<BankAccountProps> {
       balance: props.balance ?? 0,
       createdAt: props.createdAt ?? new Date(),
       userId: props.userId,
-      investments: props.investments ?? [],
       availableWithdrawal: props.availableWithdrawal ?? 0,
     }
 

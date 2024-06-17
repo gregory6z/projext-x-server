@@ -41,6 +41,7 @@ export class AddMonthlyProfitUseCase {
                 monthProfit.profitPercentage * investmentPurchase.initialAmount,
               profit: monthProfit.profitPercentage,
             }
+
             investmentPurchase.amountProfits.push(amountMonth)
 
             this.investmentPurchaseRepository.update(investmentPurchase)

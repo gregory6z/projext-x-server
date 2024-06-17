@@ -40,4 +40,22 @@ export class InMemoryInvestmentPurchaseRepository
 
     return investmentPurchase
   }
+
+  async findByAccountId(accountId: string) {
+    const investmentPurchase = this.items.find(
+      (item) => item.accountId === accountId,
+    )
+    if (!investmentPurchase) {
+      return null
+    }
+
+    return investmentPurchase
+  }
+
+  async findManyByAccountId(accountId: string): Promise<InvestmentPurchase[]> {
+    const investmentPurchases = this.items.filter(
+      (purchase) => purchase.accountId === accountId,
+    )
+    return investmentPurchases
+  }
 }
