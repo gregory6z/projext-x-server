@@ -4,6 +4,7 @@ import { InvestmentPurchase } from "../entities/investiment-purchase"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
 import { BankAccountsRepository } from "../repositories/bank-accounts-repository"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
+import { AccountNumber } from "../entities/value-objects/account-number"
 
 interface RegisterInvestmentPurchaseUseCaseRequest {
   accountId: string
@@ -33,7 +34,7 @@ export class RegisterInvestmentPurchaseUseCase {
     initialAmount,
   }: RegisterInvestmentPurchaseUseCaseRequest): Promise<RegisterInvestmentPurchaseUseCaseResponse> {
     const bankAccount = await this.bankAccountRepository.findById(
-      accountId.toString(),
+      AccountNumber.toString(),
     )
 
     if (bankAccount) {

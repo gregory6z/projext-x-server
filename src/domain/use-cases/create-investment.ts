@@ -17,7 +17,7 @@ interface CreateInvestmentUseCaseRequest {
   }
 
   term: number
-  risk: "low" | "medium" | "high"
+  risk: string
 }
 
 type CreateInvestmentUseCaseResponse = Either<

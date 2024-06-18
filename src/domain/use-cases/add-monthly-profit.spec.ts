@@ -109,7 +109,6 @@ describe("AddMonthlyProfitUseCase", () => {
       //   (total, current) => total + current.profit,
       //   0,
       // )
-      console.log(investment.monthlyProfits)
 
       // Verifique se o amountProfit foi adicionado corretamente
       expect(updatedInvestmentPurchase?.amountProfits[i]).toBeDefined()

@@ -1,24 +1,16 @@
 import { InMemoryInvestmentRepository } from "@/test/repositories/in-memory-investments-repository"
 import { FetchInvestmentsUseCase } from "./fetch-investments"
-import { CheckAndActivateInvestmentUseCase } from "./check-and-activate-investment"
 import { makeInvestment } from "@/test/factories/make-investment"
 
 let inMemoryInvestmentsRepository: InMemoryInvestmentRepository
-let checkAndActivateInvestmentUseCase: CheckAndActivateInvestmentUseCase
 
 let sut: FetchInvestmentsUseCase
 
 describe("Fetch Investments", () => {
   beforeEach(() => {
     inMemoryInvestmentsRepository = new InMemoryInvestmentRepository()
-    checkAndActivateInvestmentUseCase = new CheckAndActivateInvestmentUseCase(
-      inMemoryInvestmentsRepository,
-    )
 
-    sut = new FetchInvestmentsUseCase(
-      inMemoryInvestmentsRepository,
-      checkAndActivateInvestmentUseCase,
-    )
+    sut = new FetchInvestmentsUseCase(inMemoryInvestmentsRepository)
   })
 
   it("should be able to fetch all investments", async () => {
@@ -36,19 +28,5 @@ describe("Fetch Investments", () => {
         investments: [investment],
       },
     ])
-  })
-
-  it("should activate investments that have reached 100% fundraising progress", async () => {
-    const investment = makeInvestment({
-      fundraisingProgress: {
-        current: 100,
-        numberOfWeeks: 0,
-      },
-    })
-    inMemoryInvestmentsRepository.items.push(investment)
-
-    await sut.execute()
-
-    expect(investment.status).toEqual("active")
   })
 })

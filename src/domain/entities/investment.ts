@@ -24,7 +24,7 @@ export interface InvestmentProps {
 
   term: number
 
-  risk: "low" | "medium" | "high"
+  risk: string
 
   initialDate?: Date | null
   endDate?: Date | null

@@ -2,7 +2,6 @@ import { Either, right } from "@/core/either"
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
 import { Investment } from "../entities/investment"
-import { CheckAndActivateInvestmentUseCase } from "./check-and-activate-investment"
 
 type FetchInvestmentsUseCaseResponse = Either<
   ResourceNotFoundError,
@@ -14,7 +13,7 @@ type FetchInvestmentsUseCaseResponse = Either<
 export class FetchInvestmentsUseCase {
   constructor(
     private investmentsRepository: InvestmentsRepository,
-    private checkAndActivateInvestmentUseCase: CheckAndActivateInvestmentUseCase,
+    // private checkAndActivateInvestmentUseCase: CheckAndActivateInvestmentUseCase,
   ) {}
 
   async execute(): Promise<FetchInvestmentsUseCaseResponse[]> {
@@ -23,7 +22,7 @@ export class FetchInvestmentsUseCase {
     return investments.map((investment) => {
       investment.setFundraisingProgress()
 
-      this.checkAndActivateInvestmentUseCase.execute()
+      // this.checkAndActivateInvestmentUseCase.execute()
 
       return right({
         investments,
