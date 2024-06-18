@@ -32,12 +32,14 @@ export class FetchInvestmentPurchaseByAccountIdUseCase {
     }
 
     const investmentPurchases =
-      await this.investmentPurchaseRepository.findManyByAccountId(
+      (await this.investmentPurchaseRepository.findManyByAccountId(
         BankAccount.accountNumber,
-      )
+      )) || []
+
+    console.log(investmentPurchases)
 
     return right({
-      investments: investmentPurchases ?? [],
+      investments: investmentPurchases,
     })
   }
 }

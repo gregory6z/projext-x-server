@@ -38,7 +38,6 @@ describe("Register Investment Purchase", () => {
       paymentType: "normal",
       initialAmount: 1000,
     })
-    console.log(result.value)
 
     expect(result.isRight()).toBe(true)
 
