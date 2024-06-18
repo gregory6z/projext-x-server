@@ -2,19 +2,14 @@ import { AggregateRoot } from "@/core/entities/aggregate-root"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 
 export interface TransactionProps {
-  transactionId: string
   accountId: string
   type: "deposit" | "withdrawal"
 
   amount: number
-  createdAt: Date
+  createdAt?: Date
 }
 
 export class Transaction extends AggregateRoot<TransactionProps> {
-  get transactionId(): string {
-    return this.props.transactionId
-  }
-
   get accountId(): string {
     return this.props.accountId
   }

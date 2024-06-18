@@ -24,13 +24,13 @@ describe("Fetch Investment Purchase By Account Id", () => {
   it("should be able to fetch all investment purchases for a given account id", async () => {
     const bankAccount = makeBankAccount()
     const investmentPurchase = makeInvestmentPurchase({
-      accountId: bankAccount.accountNumber,
+      accountId: bankAccount.id.toString(),
     })
 
     inMemoryBankAccountsRepository.items.push(bankAccount)
     inMemoryInvestmentPurchaseRepository.items.push(investmentPurchase)
 
-    const result = await sut.execute({ accountId: bankAccount.accountNumber })
+    const result = await sut.execute({ accountId: bankAccount.id.toString() })
 
     console.log(result)
 

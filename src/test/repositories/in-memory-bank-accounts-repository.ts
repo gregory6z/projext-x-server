@@ -9,7 +9,7 @@ export class InMemoryBankAccountsRepository implements BankAccountsRepository {
 
   async findById(bankAccountId: string) {
     const bankAccount = this.items.find(
-      (item) => item.accountNumber === bankAccountId,
+      (item) => item.id.toString() === bankAccountId,
     )
 
     if (!bankAccount) {

@@ -33,7 +33,7 @@ export class FetchInvestmentPurchaseByAccountIdUseCase {
 
     const investmentPurchases =
       (await this.investmentPurchaseRepository.findManyByAccountId(
-        BankAccount.accountNumber,
+        BankAccount.id.toString(),
       )) || []
 
     console.log(investmentPurchases)

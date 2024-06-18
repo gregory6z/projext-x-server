@@ -1,6 +1,7 @@
 import { Either, right } from "@/core/either"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
 import { InvestmentPurchase } from "../entities/investiment-purchase"
+import { TransactionsRepository } from "../repositories/transactions-repository"
 
 interface UpdatedBalanceUseCaseRequest {
   accountId: string
@@ -16,6 +17,7 @@ type UpdatedBalanceUseCaseResponse = Either<
 export class UpdatedBalanceUseCase {
   constructor(
     private investmentPurchaseRepository: InvestmentPurchaseRepository,
+    private transactionsRepository: TransactionsRepository,
     // private InvestmentsRepository: InvestmentsRepository,
   ) {}
 
@@ -31,7 +33,7 @@ export class UpdatedBalanceUseCase {
       })
     }
 
-    const balanceValue = investmentPurchases.reduce(
+    let balanceValue = investmentPurchases.reduce(
       (total: number, purchase: InvestmentPurchase) =>
         total +
         purchase.initialAmount +
@@ -40,6 +42,17 @@ export class UpdatedBalanceUseCase {
           .reduce((total, amount) => total + amount, 0),
       0,
     )
+
+    const transactions =
+      await this.transactionsRepository.findManyByAccountId(accountId)
+
+    transactions.forEach((transaction) => {
+      if (transaction.type === "deposit") {
+        balanceValue += transaction.amount
+      } else if (transaction.type === "withdrawal") {
+        balanceValue -= transaction.amount
+      }
+    })
 
     return right({
       balance: balanceValue,
