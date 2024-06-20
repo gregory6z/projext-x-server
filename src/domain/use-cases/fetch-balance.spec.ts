@@ -10,10 +10,11 @@ let inMemoryTransactionsRepository: InMemoryTransactionsRepository
 
 let sut: FetchBalanceUseCase
 
-describe("Updated Balance Use Case", () => {
+describe("Fetch Balance Use Case", () => {
   beforeEach(() => {
     inMemoryInvestmentPurchaseRepository =
       new InMemoryInvestmentPurchaseRepository()
+
     inMemoryTransactionsRepository = new InMemoryTransactionsRepository()
 
     sut = new FetchBalanceUseCase(
