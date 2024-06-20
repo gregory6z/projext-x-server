@@ -1,6 +1,5 @@
 import { Either, right } from "@/core/either"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
-import { InvestmentPurchase } from "../entities/investiment-purchase"
 import { TransactionsRepository } from "../repositories/transactions-repository"
 
 interface UpdatedBalanceUseCaseRequest {
@@ -33,15 +32,9 @@ export class UpdatedBalanceUseCase {
       })
     }
 
-    let balanceValue = investmentPurchases.reduce(
-      (total: number, purchase: InvestmentPurchase) =>
-        total +
-        purchase.initialAmount +
-        purchase.amountProfits
-          .map((profit) => profit.amount)
-          .reduce((total, amount) => total + amount, 0),
-      0,
-    )
+    let balanceValue = investmentPurchases
+      .map((purchase) => purchase.totalAmount)
+      .reduce((a, b) => a + b, 0)
 
     const transactions =
       await this.transactionsRepository.findManyByAccountId(accountId)

@@ -36,8 +36,6 @@ export class FetchInvestmentPurchaseByAccountIdUseCase {
         BankAccount.id.toString(),
       )) || []
 
-    console.log(investmentPurchases)
-
     return right({
       investments: investmentPurchases,
     })

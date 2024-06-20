@@ -35,7 +35,7 @@ export class InvestmentPurchase extends AggregateRoot<InvestmentPurchaseProps> {
     let totalProfit = 0
     if (this.props.amountProfits) {
       for (const profitInfo of this.props.amountProfits) {
-        totalProfit += profitInfo.profit
+        totalProfit += profitInfo.amount * profitInfo.profit
       }
     }
 

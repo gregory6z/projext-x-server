@@ -32,8 +32,6 @@ describe("Fetch Investment Purchase By Account Id", () => {
 
     const result = await sut.execute({ accountId: bankAccount.id.toString() })
 
-    console.log(result)
-
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({
       investments: [investmentPurchase],
