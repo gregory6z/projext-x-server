@@ -44,7 +44,7 @@ describe("Check and Activate Investment Use Case", () => {
     expect(updatedInvestment?.status).toBe("active")
   })
 
-  it("deve completar um investimento quando a data de término é ultrapassada", async () => {
+  it("should complete an investment when the end date is passed", async () => {
     const investment = makeInvestment({
       status: "active",
       term: 1, // Definindo o termo para 1 ano atrás para garantir que a data de término seja ultrapassada
@@ -77,5 +77,24 @@ describe("Check and Activate Investment Use Case", () => {
 
     expect(updatedInvestment?.status).toBe("completed")
     expect(updatedBankAccount?.availableWithdrawal).toBe(1100)
+  })
+
+  it("should throw an error if the bank account is not found", async () => {
+    const investment = makeInvestment({
+      status: "active",
+      term: 1, // Definindo o termo para 1 ano atrás para garantir que a data de término seja ultrapassada
+      endDate: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+    })
+
+    const investmentPurchase = makeInvestmentPurchase({
+      investmentId: investment.id.toString(),
+      accountId: "non-existing-account-id",
+      totalAmount: 1000,
+    })
+
+    inMemoryInvestmentsRepository.items.push(investment)
+    inMemoryInvestmentPurchaseRepository.items.push(investmentPurchase)
+
+    await expect(sut.execute()).rejects.toThrow("Bank account not found")
   })
 })
