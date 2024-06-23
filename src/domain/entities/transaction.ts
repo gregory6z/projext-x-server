@@ -5,14 +5,14 @@ export interface TransactionProps {
   accountId: string
   type: "deposit" | "withdrawal"
 
-  status?: "pending" | "completed" | "cancelled"
+  status?: "pending" | "completed" | "failed"
 
   amount: number
   createdAt?: Date
 }
 
 export class Transaction extends AggregateRoot<TransactionProps> {
-  get status(): "pending" | "completed" | "cancelled" {
+  get status(): "pending" | "completed" | "failed" {
     return this.props.status ?? "pending"
   }
 
@@ -20,7 +20,7 @@ export class Transaction extends AggregateRoot<TransactionProps> {
     return this.props.accountId
   }
 
-  set status(value: "pending" | "completed" | "cancelled") {
+  set status(value: "pending" | "completed" | "failed") {
     this.props.status = value
   }
 

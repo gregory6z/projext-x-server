@@ -5,4 +5,5 @@ export abstract class TransactionsRepository {
   abstract findById(transactionId: string): Promise<Transaction | null>
 
   abstract findManyByAccountId(accountId: string): Promise<Transaction[]>
+  abstract updateStatus(status: "failed" | "completed"): Promise<void>
 }

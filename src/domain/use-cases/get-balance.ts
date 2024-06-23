@@ -13,7 +13,7 @@ type UpdatedBalanceUseCaseResponse = Either<
   }
 >
 
-export class FetchBalanceUseCase {
+export class GetBalanceUseCase {
   constructor(
     private investmentPurchaseRepository: InvestmentPurchaseRepository,
     private transactionsRepository: TransactionsRepository,

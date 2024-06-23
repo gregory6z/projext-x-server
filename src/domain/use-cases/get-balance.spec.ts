@@ -3,12 +3,12 @@ import { makeBankAccount } from "@/test/factories/make-bank-account"
 import { InMemoryTransactionsRepository } from "@/test/repositories/in-memory-transaction-repository"
 import { makeTransaction } from "@/test/factories/make-transaction"
 import { makeInvestmentPurchase } from "@/test/factories/make-investment-purchase"
-import { FetchBalanceUseCase } from "./fetch-balance"
+import { GetBalanceUseCase } from "./get-balance"
 
 let inMemoryInvestmentPurchaseRepository: InMemoryInvestmentPurchaseRepository
 let inMemoryTransactionsRepository: InMemoryTransactionsRepository
 
-let sut: FetchBalanceUseCase
+let sut: GetBalanceUseCase
 
 describe("Fetch Balance Use Case", () => {
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe("Fetch Balance Use Case", () => {
 
     inMemoryTransactionsRepository = new InMemoryTransactionsRepository()
 
-    sut = new FetchBalanceUseCase(
+    sut = new GetBalanceUseCase(
       inMemoryInvestmentPurchaseRepository,
       inMemoryTransactionsRepository,
     )

@@ -25,4 +25,14 @@ export class InMemoryTransactionsRepository implements TransactionsRepository {
 
     return transactions
   }
+
+  async updateStatus(status: "failed" | "completed"): Promise<void> {
+    this.items = this.items.map((item) => {
+      if (item.status === "pending") {
+        item.status = status
+      }
+
+      return item
+    })
+  }
 }
