@@ -1,21 +1,21 @@
-import { ulid } from 'ulid';
+import { ulid } from "ulid"
 
 export class UniqueEntityID {
-  private value: string;
+  private value: string
 
   toString(): string {
-    return this.value;
+    return this.value
   }
 
   toValue(): string {
-    return this.value;
+    return this.value
   }
 
   constructor(value?: string) {
-    this.value = value ?? ulid();
+    this.value = value ?? ulid()
   }
 
   public equals(id: UniqueEntityID): boolean {
-    return id.toValue() === this.value;
+    return id.toValue() === this.value
   }
 }

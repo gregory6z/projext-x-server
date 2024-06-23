@@ -3,6 +3,8 @@ import { makeInvestment } from "@/test/factories/make-investment"
 import { CheckAndActivateInvestmentUseCase } from "./check-and-activate-investment"
 import { InMemoryInvestmentRepository } from "@/test/repositories/in-memory-investments-repository"
 import { InMemoryBankAccountsRepository } from "@/test/repositories/in-memory-bank-accounts-repository"
+import { makeInvestmentPurchase } from "@/test/factories/make-investment-purchase"
+import { makeBankAccount } from "@/test/factories/make-bank-account"
 
 describe("Check and Activate Investment Use Case", () => {
   let inMemoryInvestmentsRepository: InMemoryInvestmentRepository
@@ -40,5 +42,40 @@ describe("Check and Activate Investment Use Case", () => {
     )
 
     expect(updatedInvestment?.status).toBe("active")
+  })
+
+  it("deve completar um investimento quando a data de término é ultrapassada", async () => {
+    const investment = makeInvestment({
+      status: "active",
+      term: 1, // Definindo o termo para 1 ano atrás para garantir que a data de término seja ultrapassada
+      endDate: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+    })
+
+    const bankAccount = makeBankAccount({
+      availableWithdrawal: 1000,
+    })
+
+    const investmentPurchase = makeInvestmentPurchase({
+      investmentId: investment.id.toString(),
+      accountId: bankAccount.id.toString(),
+      initialAmount: 100,
+      totalAmount: 1000,
+    })
+
+    inMemoryBankAccountsRepository.items.push(bankAccount)
+    inMemoryInvestmentsRepository.items.push(investment)
+    inMemoryInvestmentPurchaseRepository.items.push(investmentPurchase)
+
+    await sut.execute()
+
+    const updatedInvestment = await inMemoryInvestmentsRepository.findById(
+      investment.id.toString(),
+    )
+    const updatedBankAccount = await inMemoryBankAccountsRepository.findById(
+      bankAccount.id.toString(),
+    )
+
+    expect(updatedInvestment?.status).toBe("completed")
+    expect(updatedBankAccount?.availableWithdrawal).toBe(1100)
   })
 })

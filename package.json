@@ -1,10 +1,11 @@
 {
   "name": "project-x-server",
   "version": "1.0.0",
-  "description": "- **id**: Identificador único do usuário. - **nome**: Nome do usuário. - **sobrenome**: Sobrenome do usuário. - **endereco**: Endereço do usuário. - **dataNascimento**: Data de nascimento do usuário. - **email**: Endereço de e-mail do usuário. - **telefone**: Número de telefone do usuário. - **senha**: Senha do usuário. - **investimentos**: Lista de investimentos associados ao usuário. - **conta**: Conta bancária associada ao usuário.",
+  "description": "investments",
   "main": "index.js",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+"test:debug": "node --inspect-brk node_modules/vitest/dist/cli.js run"    
   },
   "keywords": [],
   "author": "",
