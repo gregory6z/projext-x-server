@@ -1,9 +1,9 @@
-import { InMemoryInvestmentRepository } from "@/test/repositories/in-memory-investments-repository"
-import { makeInvestment } from "@/test/factories/make-investment"
+import { InMemoryInvestmentRepository } from "test/repositories/in-memory-investments-repository"
+import { makeInvestment } from "test/factories/make-investment"
 import { AddMonthlyProfitUseCase } from "./add-monthly-profit"
 import sinon from "sinon"
-import { InMemoryInvestmentPurchaseRepository } from "@/test/repositories/in-memory-investment-purshase"
-import { makeInvestmentPurchase } from "@/test/factories/make-investment-purchase"
+import { InMemoryInvestmentPurchaseRepository } from "test/repositories/in-memory-investment-purshase"
+import { makeInvestmentPurchase } from "test/factories/make-investment-purchase"
 
 describe("AddMonthlyProfitUseCase", () => {
   let sut: AddMonthlyProfitUseCase

@@ -1,7 +1,7 @@
-import { InMemoryUsersRepository } from "@/test/repositories/in-memory-user-repository"
-import { makeUser } from "@/test/factories/make-user"
+import { InMemoryUsersRepository } from "test/repositories/in-memory-user-repository"
+import { makeUser } from "test/factories/make-user"
 import { CreateExternalBankUseCase } from "./create-external-bank"
-import { InMemoryExternalBankRepository } from "@/test/repositories/in-memory-bank-external-repository"
+import { InMemoryExternalBankRepository } from "test/repositories/in-memory-bank-external-repository"
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryExternalBanksRepository: InMemoryExternalBankRepository

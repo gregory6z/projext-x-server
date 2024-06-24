@@ -1,9 +1,9 @@
-import { InMemoryBankAccountsRepository } from "@/test/repositories/in-memory-bank-accounts-repository"
+import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank-accounts-repository"
 import { RegisterInvestmentPurchaseUseCase } from "./register-investment-purchase"
-import { makeInvestment } from "@/test/factories/make-investment"
-import { InMemoryInvestmentPurchaseRepository } from "@/test/repositories/in-memory-investment-purshase"
-import { InMemoryInvestmentRepository } from "@/test/repositories/in-memory-investments-repository"
-import { makeBankAccount } from "@/test/factories/make-bank-account"
+import { makeInvestment } from "test/factories/make-investment"
+import { InMemoryInvestmentPurchaseRepository } from "test/repositories/in-memory-investment-purshase"
+import { InMemoryInvestmentRepository } from "test/repositories/in-memory-investments-repository"
+import { makeBankAccount } from "test/factories/make-bank-account"
 
 let inMemoryInvestmentPurchaseRepository: InMemoryInvestmentPurchaseRepository
 let inMemoryBankAccountsRepository: InMemoryBankAccountsRepository

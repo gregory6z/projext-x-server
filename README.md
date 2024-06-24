@@ -1,54 +1,73 @@
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-### Usuario
-- **id**: Identificador único do usuário.
-- **nome**: Nome do usuário.
-- **sobrenome**: Sobrenome do usuário.
-- **endereco**: Endereço do usuário.
-- **dataNascimento**: Data de nascimento do usuário.
-- **email**: Endereço de e-mail do usuário.
-- **telefone**: Número de telefone do usuário.
-- **senha**: Senha do usuário.
-- **investimentos**: Lista de investimentos associados ao usuário.
-- **conta**: Conta bancária associada ao usuário.
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Conta Bancaria
-accountId: Identificador único da conta bancária.
-userId: Identificador do usuário proprietário da conta.
-accountNumber: Número da conta bancária.
-accountHolderID: Identificação do titular da conta.
-balance: Saldo da conta bancária.
-transactions: Lista de transações associadas à conta.
-status: Status da conta bancária.
-createdAt: Data de criação da conta bancária.
-updatedAt: Data de atualização da conta bancária.
-investimentos: Lista de investimentos associados a esta conta.
+## Description
 
-bancosExternos: Lista de informações sobre bancos externos associados a esta conta para saques.
-  accountHolderName: Nome do titular da conta no banco externo.
-  accountNumber: Número da conta no banco externo.
-  iban: Número IBAN do banco externo.
-  bic: Código BIC do banco externo.
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Installation
 
-### Transacao
-- **transactionId**: Identificador único da transação.
-- **accountId**: Identificador da conta associada à transação.
-- **type**: Tipo de transação (depósito, saque, etc.).
-- **amount**: Valor da transação.
-- **timestamp**: Data e hora da transação.
+```bash
+$ pnpm install
+```
 
-### Investimento
-investmentId: Identificador único do investimento.
-accountId: Identificador da conta associada ao investimento.
-investmentType: Tipo de investimento (ações, fundos, criptomoedas, etc.).
-amount: Valor investido na transação.
-quantity: Quantidade de ativos adquiridos.
-purchasePricePerUnit: Preço de compra por unidade do ativo.
-currentPricePerUnit: Preço atual de mercado por unidade do ativo.
-timestamp: Data e hora da transação de investimento.
-risk: Nível de risco associado ao investimento (baixo, médio, alto).
-prazo: Prazo de duração do investimento (curto prazo, médio prazo, longo prazo).
-modalidadePagamento: Modalidade de pagamento do investimento (à vista, parcelado, etc.).
-progressoCaptacao: Progresso da captação de recursos para o investimento (em porcentagem).
-dataLiberacao: Data em que o valor do investimento é liberado para o cliente.
+## Running the app
+
+```bash
+# development
+$ pnpm run start
+
+# watch mode
+$ pnpm run start:dev
+
+# production mode
+$ pnpm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ pnpm run test
+
+# e2e tests
+$ pnpm run test:e2e
+
+# test coverage
+$ pnpm run test:cov
+```
+
+## Support
+
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+
+## Stay in touch
+
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](LICENSE).

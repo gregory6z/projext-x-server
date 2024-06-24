@@ -1,8 +1,8 @@
-import { InMemoryInvestmentPurchaseRepository } from "@/test/repositories/in-memory-investment-purshase"
-import { makeBankAccount } from "@/test/factories/make-bank-account"
-import { InMemoryTransactionsRepository } from "@/test/repositories/in-memory-transaction-repository"
-import { makeTransaction } from "@/test/factories/make-transaction"
-import { makeInvestmentPurchase } from "@/test/factories/make-investment-purchase"
+import { InMemoryInvestmentPurchaseRepository } from "test/repositories/in-memory-investment-purshase"
+import { makeBankAccount } from "test/factories/make-bank-account"
+import { InMemoryTransactionsRepository } from "test/repositories/in-memory-transaction-repository"
+import { makeTransaction } from "test/factories/make-transaction"
+import { makeInvestmentPurchase } from "test/factories/make-investment-purchase"
 import { GetBalanceUseCase } from "./get-balance"
 
 let inMemoryInvestmentPurchaseRepository: InMemoryInvestmentPurchaseRepository

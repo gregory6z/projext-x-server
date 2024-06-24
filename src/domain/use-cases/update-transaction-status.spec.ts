@@ -1,6 +1,6 @@
-import { InMemoryTransactionsRepository } from "@/test/repositories/in-memory-transaction-repository"
+import { InMemoryTransactionsRepository } from "test/repositories/in-memory-transaction-repository"
 import { UpdateTransactionStatusUseCase } from "./update-transaction-status"
-import { makeTransaction } from "@/test/factories/make-transaction"
+import { makeTransaction } from "test/factories/make-transaction"
 
 let inMemoryTransactionsRepository: InMemoryTransactionsRepository
 let sut: UpdateTransactionStatusUseCase

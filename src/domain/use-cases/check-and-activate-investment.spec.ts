@@ -1,10 +1,10 @@
-import { InMemoryInvestmentPurchaseRepository } from "@/test/repositories/in-memory-investment-purshase"
-import { makeInvestment } from "@/test/factories/make-investment"
+import { InMemoryInvestmentPurchaseRepository } from "test/repositories/in-memory-investment-purshase"
+import { makeInvestment } from "test/factories/make-investment"
 import { CheckAndActivateInvestmentUseCase } from "./check-and-activate-investment"
-import { InMemoryInvestmentRepository } from "@/test/repositories/in-memory-investments-repository"
-import { InMemoryBankAccountsRepository } from "@/test/repositories/in-memory-bank-accounts-repository"
-import { makeInvestmentPurchase } from "@/test/factories/make-investment-purchase"
-import { makeBankAccount } from "@/test/factories/make-bank-account"
+import { InMemoryInvestmentRepository } from "test/repositories/in-memory-investments-repository"
+import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank-accounts-repository"
+import { makeInvestmentPurchase } from "test/factories/make-investment-purchase"
+import { makeBankAccount } from "test/factories/make-bank-account"
 
 describe("Check and Activate Investment Use Case", () => {
   let inMemoryInvestmentsRepository: InMemoryInvestmentRepository

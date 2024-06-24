@@ -1,6 +1,6 @@
-import { makeBankAccount } from "@/test/factories/make-bank-account"
-import { makeTransaction } from "@/test/factories/make-transaction"
-import { InMemoryTransactionsRepository } from "@/test/repositories/in-memory-transaction-repository"
+import { makeBankAccount } from "test/factories/make-bank-account"
+import { makeTransaction } from "test/factories/make-transaction"
+import { InMemoryTransactionsRepository } from "test/repositories/in-memory-transaction-repository"
 import { FetchTransactionsUseCase } from "./fetch-transactions"
 
 let inMemoryTransactionsRepository: InMemoryTransactionsRepository

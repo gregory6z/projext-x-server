@@ -1,6 +1,6 @@
-import { InMemoryInvestmentRepository } from "@/test/repositories/in-memory-investments-repository"
+import { InMemoryInvestmentRepository } from "test/repositories/in-memory-investments-repository"
 import { CreateInvestmentUseCase } from "./create-investment"
-import { makeInvestment } from "@/test/factories/make-investment"
+import { makeInvestment } from "test/factories/make-investment"
 
 let inMemoryInvestmentsRepository: InMemoryInvestmentRepository
 let sut: CreateInvestmentUseCase

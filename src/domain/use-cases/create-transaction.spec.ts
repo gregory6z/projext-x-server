@@ -1,7 +1,7 @@
-import { InMemoryBankAccountsRepository } from "@/test/repositories/in-memory-bank-accounts-repository"
+import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank-accounts-repository"
 import { CreateTransactionUseCase } from "./create-transaction"
-import { InMemoryTransactionsRepository } from "@/test/repositories/in-memory-transaction-repository"
-import { makeBankAccount } from "@/test/factories/make-bank-account"
+import { InMemoryTransactionsRepository } from "test/repositories/in-memory-transaction-repository"
+import { makeBankAccount } from "test/factories/make-bank-account"
 import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { InsufficientBalanceError } from "./errors/insufficient-balance-error"
 

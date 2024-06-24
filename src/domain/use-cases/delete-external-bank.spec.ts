@@ -1,8 +1,8 @@
-import { InMemoryUsersRepository } from "@/test/repositories/in-memory-user-repository"
-import { makeUser } from "@/test/factories/make-user"
-import { InMemoryExternalBankRepository } from "@/test/repositories/in-memory-bank-external-repository"
+import { InMemoryUsersRepository } from "test/repositories/in-memory-user-repository"
+import { makeUser } from "test/factories/make-user"
+import { InMemoryExternalBankRepository } from "test/repositories/in-memory-bank-external-repository"
 import { DeleteExternalBankUseCase } from "./delete-external-bank"
-import { makeExternalBank } from "@/test/factories/make-external-bank"
+import { makeExternalBank } from "test/factories/make-external-bank"
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error"
 

@@ -1,7 +1,7 @@
-import { FakeHasher } from "@/test/cryptography/fake-hasher"
-import { InMemoryUsersRepository } from "@/test/repositories/in-memory-user-repository"
-import { FakeEncrypter } from "@/test/cryptography/fake-encrypter"
-import { makeUser } from "@/test/factories/make-user"
+import { FakeHasher } from "test/cryptography/fake-hasher"
+import { InMemoryUsersRepository } from "test/repositories/in-memory-user-repository"
+import { FakeEncrypter } from "test/cryptography/fake-encrypter"
+import { makeUser } from "test/factories/make-user"
 import { EditUserUseCase } from "./edit-user"
 let inMemoryUsersRepository: InMemoryUsersRepository
 
