@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common"
 import { DatabaseModule } from "../database/database.module"
-import { AddMonthlyProfitUseCase } from "@/domain/use-cases/add-monthly-profit"
 import { CheckAndActivateInvestmentUseCase } from "@/domain/use-cases/check-and-activate-investment"
 import { CreateBankAccountUseCase } from "@/domain/use-cases/create-bank-account"
 import { CreateExternalBankUseCase } from "@/domain/use-cases/create-external-bank"
@@ -16,12 +15,12 @@ import { GetBalanceUseCase } from "@/domain/use-cases/get-balance"
 import { RegisterInvestmentPurchaseUseCase } from "@/domain/use-cases/register-investment-purchase"
 import { UpdateStatusInvestmentPurchaseUseCase } from "@/domain/use-cases/update-investment-purchase-status"
 import { UpdateTransactionStatusUseCase } from "@/domain/use-cases/update-transaction-status"
+import { AddMonthlyProfitUseCase } from "@/domain/use-cases/add-monthly-profit"
 
 @Module({
   imports: [DatabaseModule],
   controllers: [],
   providers: [
-    AddMonthlyProfitUseCase,
     CheckAndActivateInvestmentUseCase,
     CreateBankAccountUseCase,
     CreateExternalBankUseCase,
@@ -37,6 +36,7 @@ import { UpdateTransactionStatusUseCase } from "@/domain/use-cases/update-transa
     RegisterInvestmentPurchaseUseCase,
     UpdateStatusInvestmentPurchaseUseCase,
     UpdateTransactionStatusUseCase,
+    AddMonthlyProfitUseCase,
   ],
 })
 export class HttpModule {}
