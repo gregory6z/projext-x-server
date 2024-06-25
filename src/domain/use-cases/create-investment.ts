@@ -1,7 +1,7 @@
 import { Either, right } from "@/core/either"
 import { Investment } from "../entities/investment"
-import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
+import { Injectable } from "@nestjs/common"
 
 interface CreateInvestmentUseCaseRequest {
   name: string
@@ -21,12 +21,13 @@ interface CreateInvestmentUseCaseRequest {
 }
 
 type CreateInvestmentUseCaseResponse = Either<
-  WrongCredentialsError,
+  null,
   {
     investment: Investment
   }
 >
 
+@Injectable()
 export class CreateInvestmentUseCase {
   constructor(private investmentRepository: InvestmentsRepository) {}
 

@@ -3,6 +3,7 @@ import { FetchInvestmentPurchaseByAccountIdUseCase } from "./fetch-investment-pu
 import { makeInvestmentPurchase } from "test/factories/make-investment-purchase"
 import { makeBankAccount } from "test/factories/make-bank-account"
 import { InMemoryInvestmentPurchaseRepository } from "test/repositories/in-memory-investment-purshase"
+import { NotFoundException } from "@nestjs/common"
 
 let inMemoryInvestmentPurchaseRepository: InMemoryInvestmentPurchaseRepository
 let inMemoryBankAccountsRepository: InMemoryBankAccountsRepository
@@ -36,5 +37,14 @@ describe("Fetch Investment Purchase By Account Id", () => {
     expect(result.value).toEqual({
       investments: [investmentPurchase],
     })
+  })
+
+  it("should return an error if the bank account is not found", async () => {
+    const nonExistentAccountId = "some-non-existent-account-id"
+    const result = await sut.execute({ accountId: nonExistentAccountId })
+
+    // Verifica se o resultado é um left contendo uma NotFoundException
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotFoundException)
   })
 })

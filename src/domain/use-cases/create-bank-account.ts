@@ -2,20 +2,22 @@ import { UsersRepository } from "@/domain/repositories/users-repository"
 import { BankAccount } from "@/domain/entities/bank-account"
 import { Either, left, right } from "@/core/either"
 
-import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { BankAccountsRepository } from "../repositories/bank-accounts-repository"
+import { Injectable } from "@nestjs/common"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 interface CreateBankAccountUseCaseRequest {
   userId: string
 }
 
 type CreateBankAccountUseCaseResponse = Either<
-  WrongCredentialsError,
+  ResourceNotFoundError,
   {
     bankAccount: BankAccount
   }
 >
 
+@Injectable()
 export class CreateBankAccountUseCase {
   constructor(
     private bankAccountRepository: BankAccountsRepository,
@@ -28,7 +30,7 @@ export class CreateBankAccountUseCase {
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
-      return left(new WrongCredentialsError())
+      return left(new ResourceNotFoundError())
     }
 
     const account = BankAccount.create({

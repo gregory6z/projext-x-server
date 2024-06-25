@@ -3,7 +3,9 @@ import { CronJob } from "cron"
 import { InvestmentList } from "../entities/investmentsList"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
 import { BankAccountsRepository } from "../repositories/bank-accounts-repository"
+import { Injectable, NotFoundException } from "@nestjs/common"
 
+@Injectable()
 export class CheckAndActivateInvestmentUseCase {
   constructor(
     private investmentsRepository: InvestmentsRepository,
@@ -44,7 +46,7 @@ export class CheckAndActivateInvestmentUseCase {
           )
 
         if (!investmentPurchase) {
-          throw new Error("Investment purchase not found")
+          throw new NotFoundException("Investment purchase not found")
         }
 
         const bankAccount = await this.BankAccount.findById(
@@ -52,7 +54,7 @@ export class CheckAndActivateInvestmentUseCase {
         )
 
         if (!bankAccount) {
-          throw new Error("Bank account not found")
+          throw new NotFoundException("Bank account not found")
         }
 
         bankAccount.availableWithdrawal += investmentPurchase.totalAmount

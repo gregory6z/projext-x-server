@@ -1,7 +1,8 @@
 import { Either, left, right } from "@/core/either"
-import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { Transaction } from "../entities/transaction"
 import { TransactionsRepository } from "../repositories/transactions-repository"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
+import { Injectable } from "@nestjs/common"
 
 interface UpdateTransactionStatusUseCaseRequest {
   transactionId: string
@@ -9,12 +10,13 @@ interface UpdateTransactionStatusUseCaseRequest {
 }
 
 type UpdateTransactionStatusUseCaseResponse = Either<
-  WrongCredentialsError,
+  ResourceNotFoundError,
   {
     transaction: Transaction
   }
 >
 
+@Injectable()
 export class UpdateTransactionStatusUseCase {
   constructor(private transactionsRepository: TransactionsRepository) {}
 
@@ -27,7 +29,7 @@ export class UpdateTransactionStatusUseCase {
     )
 
     if (!transaction) {
-      return left(new WrongCredentialsError())
+      return left(new ResourceNotFoundError())
     }
 
     transaction.status = status

@@ -2,7 +2,9 @@ import { CronJob } from "cron"
 import { MonthlyProfit } from "../entities/value-objects/monthly-profits"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
+import { Injectable } from "@nestjs/common"
 
+@Injectable()
 export class AddMonthlyProfitUseCase {
   constructor(
     private investmentsRepository: InvestmentsRepository,

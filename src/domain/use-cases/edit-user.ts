@@ -3,6 +3,7 @@ import { NotAllowedError } from "@/core/errors/errors/not-allowed-error"
 import { UsersRepository } from "../repositories/users-repository"
 import { Encrypter } from "@/core/cryptography/encrypter"
 import { HashGenerator } from "@/core/cryptography/hash-generator"
+import { Injectable, NotFoundException } from "@nestjs/common"
 
 interface EditUserUseCaseRequest {
   address?: string
@@ -18,6 +19,7 @@ type EditUserUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class EditUserUseCase {
   constructor(
     private userRepository: UsersRepository,
@@ -34,7 +36,7 @@ export class EditUserUseCase {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
-      return left(new NotAllowedError())
+      return left(new NotFoundException())
     }
 
     if (password) {

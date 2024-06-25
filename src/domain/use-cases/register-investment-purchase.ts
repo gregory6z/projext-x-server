@@ -1,10 +1,11 @@
 import { Either, left, right } from "@/core/either"
-import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { InvestmentPurchase } from "../entities/investiment-purchase"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
 import { BankAccountsRepository } from "../repositories/bank-accounts-repository"
 import { InvestmentsRepository } from "../repositories/investiments-repository"
 import { AccountNumber } from "../entities/value-objects/account-number"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
+import { Injectable } from "@nestjs/common"
 
 interface RegisterInvestmentPurchaseUseCaseRequest {
   accountId: string
@@ -14,12 +15,13 @@ interface RegisterInvestmentPurchaseUseCaseRequest {
 }
 
 type RegisterInvestmentPurchaseUseCaseResponse = Either<
-  WrongCredentialsError,
+  ResourceNotFoundError,
   {
     investmentPurchase: InvestmentPurchase
   }
 >
 
+@Injectable()
 export class RegisterInvestmentPurchaseUseCase {
   constructor(
     private investmentPurchaseRepository: InvestmentPurchaseRepository,
@@ -38,7 +40,7 @@ export class RegisterInvestmentPurchaseUseCase {
     )
 
     if (bankAccount) {
-      return left(new WrongCredentialsError())
+      return left(new ResourceNotFoundError())
     }
 
     const investment = await this.investmentRepository.findById(
@@ -46,7 +48,7 @@ export class RegisterInvestmentPurchaseUseCase {
     )
 
     if (!investment) {
-      return left(new WrongCredentialsError())
+      return left(new ResourceNotFoundError())
     }
 
     const investmentPurchase = InvestmentPurchase.create({

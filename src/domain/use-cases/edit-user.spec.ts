@@ -3,6 +3,7 @@ import { InMemoryUsersRepository } from "test/repositories/in-memory-user-reposi
 import { FakeEncrypter } from "test/cryptography/fake-encrypter"
 import { makeUser } from "test/factories/make-user"
 import { EditUserUseCase } from "./edit-user"
+import { NotFoundException } from "@nestjs/common"
 let inMemoryUsersRepository: InMemoryUsersRepository
 
 let fakeEncrypter: FakeEncrypter
@@ -57,5 +58,20 @@ describe("Edit User", () => {
 
     expect(result.isRight()).toBe(true)
     expect(inMemoryUsersRepository.items[0].password).toEqual(hashedPassword)
+  })
+  it("should return an error when the user is not found", async () => {
+    const nonExistentUserId = "some-non-existent-id"
+
+    // Tenta editar um usuário que não existe
+    const result = await sut.execute({
+      userId: nonExistentUserId,
+      phone: "987654321",
+    })
+
+    console.log(result)
+
+    // Verifica se o resultado é um erro e se é do tipo NotFoundException
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotFoundException)
   })
 })

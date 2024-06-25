@@ -1,9 +1,10 @@
-import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank-accounts-repository"
+import { InMemoryBankAccountsRepository } from "./../../../test/repositories/in-memory-bank-accounts-repository"
 import { RegisterInvestmentPurchaseUseCase } from "./register-investment-purchase"
 import { makeInvestment } from "test/factories/make-investment"
 import { InMemoryInvestmentPurchaseRepository } from "test/repositories/in-memory-investment-purshase"
 import { InMemoryInvestmentRepository } from "test/repositories/in-memory-investments-repository"
 import { makeBankAccount } from "test/factories/make-bank-account"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 let inMemoryInvestmentPurchaseRepository: InMemoryInvestmentPurchaseRepository
 let inMemoryBankAccountsRepository: InMemoryBankAccountsRepository
@@ -54,5 +55,40 @@ describe("Register Investment Purchase", () => {
     }
 
     // outros testes conforme necessário...
+  })
+  it("deve retornar um erro quando a conta bancária não for encontrada", async () => {
+    // Não adicione nenhuma conta bancária, simulando uma situação onde a conta não existe
+
+    const response = await sut.execute({
+      accountId: "nonExistingAccountId",
+      investmentId: "validInvestmentId", // Certifique-se de que este ID exista no repositório de investimentos se necessário
+      paymentType: "normal",
+      initialAmount: 1000,
+    })
+
+    expect(response.isLeft()).toBe(true)
+    expect(response.value).toBeInstanceOf(ResourceNotFoundError)
+  })
+  it("deve retornar um erro quando o investimento não for encontrado", async () => {
+    // Adicione uma conta bancária válida para passar pela primeira verificação
+    // inMemoryBankAccountsRepository.add(
+    //   makeBankAccount({ id: "validAccountId" }),
+    // )
+
+    const bankAccount = makeBankAccount()
+
+    inMemoryBankAccountsRepository.items.push(bankAccount)
+
+    // Não adicione nenhum investimento, simulando uma situação onde o investimento não existe
+
+    const response = await sut.execute({
+      accountId: bankAccount.id.toString(),
+      investmentId: "nonExistingInvestmentId",
+      paymentType: "normal",
+      initialAmount: 1000,
+    })
+
+    expect(response.isLeft()).toBe(true)
+    expect(response.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

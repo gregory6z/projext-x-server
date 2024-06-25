@@ -1,6 +1,7 @@
 import { Either, right } from "@/core/either"
 import { TransactionsRepository } from "../repositories/transactions-repository"
 import { Transaction } from "../entities/transaction"
+import { Injectable } from "@nestjs/common"
 
 interface FetchTransactionsUseCaseRequest {
   accountId: string
@@ -13,6 +14,7 @@ type FetchTransactionsUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class FetchTransactionsUseCase {
   constructor(private transactionsRepository: TransactionsRepository) {}
 

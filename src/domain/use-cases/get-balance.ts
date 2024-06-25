@@ -1,6 +1,7 @@
 import { Either, right } from "@/core/either"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
 import { TransactionsRepository } from "../repositories/transactions-repository"
+import { Injectable } from "@nestjs/common"
 
 interface UpdatedBalanceUseCaseRequest {
   accountId: string
@@ -13,6 +14,7 @@ type UpdatedBalanceUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class GetBalanceUseCase {
   constructor(
     private investmentPurchaseRepository: InvestmentPurchaseRepository,

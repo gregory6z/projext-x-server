@@ -2,6 +2,7 @@ import { InMemoryUsersRepository } from "test/repositories/in-memory-user-reposi
 import { makeUser } from "test/factories/make-user"
 import { CreateExternalBankUseCase } from "./create-external-bank"
 import { InMemoryExternalBankRepository } from "test/repositories/in-memory-bank-external-repository"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryExternalBanksRepository: InMemoryExternalBankRepository
@@ -29,12 +30,26 @@ describe("Create external bank account", () => {
       accountHolderName: "John Doe",
       bic: "123456",
       iban: "123456",
-      accountNumber: "12345678",
+      accountId: "12345678",
     })
 
     expect(result.isRight()).toBe(true)
     if ("externalBank" in result.value) {
       expect(result.value.externalBank.accountHolderName).toEqual("John Doe")
     }
+  })
+  it("should return an error if user does not exist", async () => {
+    const nonExistentUserId = "non-existent-user-id" // Um ID que você sabe que não existe no repositório
+
+    const result = await sut.execute({
+      userId: nonExistentUserId,
+      accountHolderName: "John Doe",
+      bic: "123456",
+      iban: "123456",
+      accountId: "221245",
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

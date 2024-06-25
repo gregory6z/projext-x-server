@@ -1,25 +1,27 @@
 import { Either, left, right } from "@/core/either"
 
-import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { ExternalBank } from "../entities/external-bank"
 import { ExternalBanksRepository } from "../repositories/external-banks-repository"
 import { UsersRepository } from "../repositories/users-repository"
+import { Injectable } from "@nestjs/common"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 interface CreateExternalBankUseCaseRequest {
   accountHolderName: string
-  accountNumber: string
+  accountId: string
   iban: string
   bic: string
   userId: string
 }
 
 type CreateExternalBankUseCaseResponse = Either<
-  WrongCredentialsError,
+  ResourceNotFoundError,
   {
     externalBank: ExternalBank
   }
 >
 
+@Injectable()
 export class CreateExternalBankUseCase {
   constructor(
     private externalBankRepository: ExternalBanksRepository,
@@ -31,19 +33,19 @@ export class CreateExternalBankUseCase {
     accountHolderName,
     bic,
     iban,
-    accountNumber,
+    accountId,
   }: CreateExternalBankUseCaseRequest): Promise<CreateExternalBankUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
-      return left(new WrongCredentialsError())
+      return left(new ResourceNotFoundError())
     }
 
     const account = ExternalBank.create({
       userId: user.id.toString(),
       accountHolderName,
       bic,
-      accountNumber,
+      accountId,
       iban,
     })
 

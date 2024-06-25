@@ -2,6 +2,7 @@ import { InMemoryUsersRepository } from "test/repositories/in-memory-user-reposi
 import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank-accounts-repository"
 import { CreateBankAccountUseCase } from "./create-bank-account"
 import { makeUser } from "test/factories/make-user"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryBankAccountsRepository: InMemoryBankAccountsRepository
@@ -32,5 +33,15 @@ describe("Create Bank Account", () => {
     if ("bankAccount" in result.value) {
       expect(result.value.bankAccount.accountNumber).toMatch(/^\d{8}$/)
     }
+  })
+  it("should return an error if user does not exist", async () => {
+    const nonExistentUserId = "non-existent-user-id"
+
+    const result = await sut.execute({
+      userId: nonExistentUserId,
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

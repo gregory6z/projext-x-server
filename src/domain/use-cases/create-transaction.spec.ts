@@ -2,8 +2,8 @@ import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank
 import { CreateTransactionUseCase } from "./create-transaction"
 import { InMemoryTransactionsRepository } from "test/repositories/in-memory-transaction-repository"
 import { makeBankAccount } from "test/factories/make-bank-account"
-import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { InsufficientBalanceError } from "./errors/insufficient-balance-error"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 let inMemoryBankAccountsRepository: InMemoryBankAccountsRepository
 let inMemoryTransactionsRepository: InMemoryTransactionsRepository
@@ -47,7 +47,7 @@ describe("Create Transaction", () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(WrongCredentialsError)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
   it("should return an error if the withdrawal amount is greater than the available balance", async () => {
     const account = makeBankAccount({

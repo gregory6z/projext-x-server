@@ -31,7 +31,7 @@ describe("Create Investment", () => {
 
     expect(result.isRight()).toBe(true)
 
-    if ("investment" in result.value) {
+    if (result.value !== null && "investment" in result.value) {
       const createdInvestment = result.value.investment
 
       expect(createdInvestment.name).toEqual(investmentData.name)

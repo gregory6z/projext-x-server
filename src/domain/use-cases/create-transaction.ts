@@ -4,6 +4,8 @@ import { TransactionsRepository } from "../repositories/transactions-repository"
 import { Transaction } from "../entities/transaction"
 import { WrongCredentialsError } from "./errors/wrong-credentials-error"
 import { InsufficientBalanceError } from "./errors/insufficient-balance-error"
+import { Injectable } from "@nestjs/common"
+import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
 
 interface CreateTransactionUseCaseRequest {
   accountId: string
@@ -19,6 +21,7 @@ type CreateTransactionUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateTransactionUseCase {
   constructor(
     private transactionRepository: TransactionsRepository,
@@ -33,7 +36,7 @@ export class CreateTransactionUseCase {
     const account = await this.bankAccountsRepository.findById(accountId)
 
     if (!account) {
-      return left(new WrongCredentialsError())
+      return left(new ResourceNotFoundError())
     }
 
     if (type === "withdrawal" && account?.availableWithdrawal < amount) {

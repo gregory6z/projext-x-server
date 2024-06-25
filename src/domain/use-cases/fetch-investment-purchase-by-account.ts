@@ -2,18 +2,20 @@ import { Either, left, right } from "@/core/either"
 import { InvestmentPurchase } from "../entities/investiment-purchase"
 import { InvestmentPurchaseRepository } from "../repositories/investiment-purchase"
 import { BankAccountsRepository } from "../repositories/bank-accounts-repository"
+import { Injectable, NotFoundException } from "@nestjs/common"
 
 interface FetchInvestmentPurchaseByAccountIdUseCaseRequest {
   accountId: string
 }
 
 type FetchInvestmentPurchaseByAccountIdUseCaseResponse = Either<
-  null,
+  NotFoundException,
   {
     investments: InvestmentPurchase[]
   }
 >
 
+@Injectable()
 export class FetchInvestmentPurchaseByAccountIdUseCase {
   constructor(
     private investmentPurchaseRepository: InvestmentPurchaseRepository,
@@ -28,7 +30,7 @@ export class FetchInvestmentPurchaseByAccountIdUseCase {
     )
 
     if (!BankAccount) {
-      return left(null)
+      return left(new NotFoundException())
     }
 
     const investmentPurchases =
