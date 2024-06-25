@@ -52,6 +52,7 @@ export class CreateUserUseCase {
       lastName,
       birthDate,
       phone,
+      isAdmin: false,
       address,
       password: hashedPassword,
     })

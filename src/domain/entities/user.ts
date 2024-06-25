@@ -5,6 +5,7 @@ export interface UserProps {
   firstName: string
   lastName: string
   address: string
+  isAdmin: boolean
   birthDate: Date
   email: string
   phone: string
@@ -14,6 +15,10 @@ export interface UserProps {
 export class User extends Entity<UserProps> {
   get firstName(): string {
     return this.props.firstName
+  }
+
+  get isAdmin(): boolean {
+    return this.props.isAdmin
   }
 
   get password(): string {
@@ -57,7 +62,13 @@ export class User extends Entity<UserProps> {
   }
 
   static create(props: UserProps, id?: UniqueEntityID) {
-    const user = new User(props, id)
+    const user = new User(
+      {
+        ...props,
+        isAdmin: false,
+      },
+      id,
+    )
 
     return user
   }

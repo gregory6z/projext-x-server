@@ -12,3 +12,162 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Status {
+  pending
+  completed
+  failed
+}
+
+enum TransactionType {
+  deposit
+  withdrawal
+}
+
+model User {
+  id    String @id @unique
+  email String @unique
+
+  isAdmin Boolean @default(false)
+
+  firstName String
+  lastName  String
+  address   String
+  birthDate String
+
+  phone    String
+  password String
+
+  bankAccount BankAccount?
+
+  externalBanks ExternalBank[]
+
+  @@map("users")
+}
+
+model BankAccount {
+  id     String @id
+  userId String @unique @map("user_id")
+
+  accountNumber String @unique
+
+  balance Decimal
+
+  availableWithdrawal Decimal
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  externalBank ExternalBank?
+
+  transaction         Transaction[]
+  investmentPurchased InvestmentPurchase[]
+
+  @@map("bank_accounts")
+}
+
+model ExternalBank {
+  id                String @id
+  userId            String @unique @map("user_id")
+  accountId         String @unique @map("account_id")
+  accountHolderName String
+
+  iban String
+  bic  String
+
+  user    User        @relation(fields: [userId], references: [id])
+  account BankAccount @relation(fields: [accountId], references: [id])
+
+  @@map("external_banks")
+}
+
+model Transaction {
+  id        String          @id
+  accountId String          @unique @map("account_id")
+  type      TransactionType
+
+  status Status?
+
+  amount    Decimal
+  createdAt DateTime @default(now()) @map("created_at")
+
+  account BankAccount @relation(fields: [accountId], references: [id])
+
+  @@map("transactions")
+}
+
+enum InvestmentStatus {
+  active
+  completed
+  pending
+  cancelled
+}
+
+model Investment {
+  id          String @id
+  name        String @unique
+  description String
+  imageUrl    String @map("image_url")
+
+  status InvestmentStatus
+
+  investmentType String @map("investment_type")
+
+  annualProfit Decimal @map("annual_profit")
+  term         Int
+
+  fundraisingProgress String @map("fundraising_progress")
+
+  monthlyProfits String
+
+  risk String
+
+  initialDate DateTime? @map("initial_date")
+  endDate     DateTime? @map("end_date")
+
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime?           @updatedAt @map("updated_at")
+  InvestmentPurchase InvestmentPurchase?
+
+  @@map("investments")
+}
+
+enum PaymentStatus {
+  pending
+  completed
+  failed
+}
+
+enum PaymentType {
+  normal
+  subscription
+}
+
+model InvestmentPurchase {
+  id           String @id
+  accountId    String @unique @map("account_id")
+  investmentId String @unique @map("investment_id")
+
+  paymentType PaymentType @map("payment_type")
+
+  status PaymentStatus
+
+  stripeCustomerId     String? @map("stripe_customer_id")
+  stripeSubscriptionId String? @map("stripe_subscription_id")
+
+  initialAmount Decimal @map("initial_amount")
+
+  totalAmount Decimal @map("total_amount")
+
+  amountProfits String? @map("amount_profits")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  account    BankAccount @relation(fields: [accountId], references: [id])
+  investment Investment  @relation(fields: [investmentId], references: [id])
+
+  @@map("investment_purchases")
+}
