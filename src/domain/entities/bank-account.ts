@@ -46,6 +46,10 @@ export class BankAccount extends Entity<BankAccountProps> {
     return this.props.accountNumber
   }
 
+  get updatedAt(): Date | null {
+    return this.props.updatedAt ?? null
+  }
+
   get balance(): number {
     return this.props.balance
   }

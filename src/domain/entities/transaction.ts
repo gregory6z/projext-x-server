@@ -5,7 +5,7 @@ export interface TransactionProps {
   accountId: string
   type: "deposit" | "withdrawal"
 
-  status?: "pending" | "completed" | "failed"
+  status: "pending" | "completed" | "failed"
 
   amount: number
   createdAt?: Date
@@ -24,7 +24,7 @@ export class Transaction extends AggregateRoot<TransactionProps> {
     this.props.status = value
   }
 
-  get type(): string {
+  get type(): "deposit" | "withdrawal" {
     return this.props.type
   }
 
@@ -40,6 +40,7 @@ export class Transaction extends AggregateRoot<TransactionProps> {
     const transaction = new Transaction(
       {
         ...props,
+        status: props.status ?? "pending",
         createdAt: props.createdAt ?? new Date(),
       },
       id,

@@ -63,6 +63,10 @@ export class Investment extends Entity<InvestmentProps> {
     this.touch()
   }
 
+  get updatedAt(): Date | null {
+    return this.props.updatedAt ?? null
+  }
+
   checkAndActivate() {
     if (
       this.props.fundraisingProgress.current === 100 &&
@@ -103,7 +107,7 @@ export class Investment extends Entity<InvestmentProps> {
     return this.props.annualProfit
   }
 
-  get status(): string {
+  get status(): "active" | "completed" | "pending" | "cancelled" {
     return this.props.status
   }
 

@@ -88,10 +88,12 @@ model Transaction {
   accountId String          @unique @map("account_id")
   type      TransactionType
 
-  status Status?
+  status Status @default(pending)
 
-  amount    Decimal
-  createdAt DateTime @default(now()) @map("created_at")
+  amount Decimal
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   account BankAccount @relation(fields: [accountId], references: [id])
 

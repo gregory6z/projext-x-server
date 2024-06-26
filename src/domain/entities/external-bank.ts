@@ -14,6 +14,10 @@ export class ExternalBank extends AggregateRoot<ExternalBankProps> {
     return this.props.userId
   }
 
+  get accountId(): string {
+    return this.props.accountId
+  }
+
   get accountHolderName(): string {
     return this.props.accountHolderName
   }
