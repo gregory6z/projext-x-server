@@ -34,7 +34,7 @@ export class UpdateTransactionStatusUseCase {
 
     transaction.status = status
 
-    await this.transactionsRepository.updateStatus(status)
+    await this.transactionsRepository.updateStatus(transactionId, status)
 
     return right({
       transaction,

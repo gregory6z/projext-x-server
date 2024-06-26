@@ -16,9 +16,11 @@ import { RegisterInvestmentPurchaseUseCase } from "@/domain/use-cases/register-i
 import { UpdateStatusInvestmentPurchaseUseCase } from "@/domain/use-cases/update-investment-purchase-status"
 import { UpdateTransactionStatusUseCase } from "@/domain/use-cases/update-transaction-status"
 import { AddMonthlyProfitUseCase } from "@/domain/use-cases/add-monthly-profit"
+import { CryptographyModule } from "../cryptography/cryptography.module"
+import { AuthModule } from "../auth/auth.module"
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CryptographyModule, AuthModule],
   controllers: [],
   providers: [
     CheckAndActivateInvestmentUseCase,

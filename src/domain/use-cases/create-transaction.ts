@@ -47,6 +47,7 @@ export class CreateTransactionUseCase {
       accountId,
       type,
       amount,
+      status: "pending",
     })
 
     await this.transactionRepository.create(transaction)
