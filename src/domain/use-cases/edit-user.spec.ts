@@ -62,7 +62,6 @@ describe("Edit User", () => {
   it("should return an error when the user is not found", async () => {
     const nonExistentUserId = "some-non-existent-id"
 
-    // Tenta editar um usuário que não existe
     const result = await sut.execute({
       userId: nonExistentUserId,
       phone: "987654321",
@@ -70,7 +69,6 @@ describe("Edit User", () => {
 
     console.log(result)
 
-    // Verifica se o resultado é um erro e se é do tipo NotFoundException
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotFoundException)
   })

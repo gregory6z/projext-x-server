@@ -1,6 +1,9 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import { Investment, InvestmentProps } from "@/domain/entities/investment"
+import { PrismaInvestmentsMapper } from "@/infra/database/prisma/mappers/prisma-investment.mapper"
+import { PrismaService } from "@/infra/database/prisma/prisma.service"
 import { fakerFR } from "@faker-js/faker"
+import { Injectable } from "@nestjs/common"
 
 export function makeInvestment(
   override: Partial<InvestmentProps> = {},
@@ -32,4 +35,21 @@ export function makeInvestment(
   )
 
   return investment
+}
+
+@Injectable()
+export class InvestmentFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaInvestment(
+    data: Partial<InvestmentProps> = {},
+  ): Promise<Investment> {
+    const investment = makeInvestment(data)
+
+    await this.prisma.investment.create({
+      data: PrismaInvestmentsMapper.toPrisma(investment),
+    })
+
+    return investment
+  }
 }

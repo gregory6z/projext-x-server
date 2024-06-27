@@ -18,10 +18,17 @@ import { UpdateTransactionStatusUseCase } from "@/domain/use-cases/update-transa
 import { AddMonthlyProfitUseCase } from "@/domain/use-cases/add-monthly-profit"
 import { CryptographyModule } from "../cryptography/cryptography.module"
 import { AuthModule } from "../auth/auth.module"
+import { CreateAccountController } from "../controllers/create-account.controller"
+import { CreateInvestmentController } from "../controllers/create-investment.controller"
+import { FetchInvestmentController } from "../controllers/fetch-investment.controller"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
-  controllers: [],
+  controllers: [
+    CreateAccountController,
+    CreateInvestmentController,
+    FetchInvestmentController,
+  ],
   providers: [
     CheckAndActivateInvestmentUseCase,
     CreateBankAccountUseCase,
