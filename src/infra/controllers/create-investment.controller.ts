@@ -1,16 +1,18 @@
 import { z } from "zod"
 
-import { Public } from "@/infra/auth/public"
 import {
   BadRequestException,
   Body,
   Controller,
   HttpCode,
   Post,
+  UnauthorizedException,
   UsePipes,
 } from "@nestjs/common"
 import { ZodValidationPipe } from "../http/pipes/zod-validation.pipe"
 import { CreateInvestmentUseCase } from "@/domain/use-cases/create-investment"
+import { UserPayload } from "../auth/jwt.strategy"
+import { CurrentUser } from "../auth/current-user-decorator"
 
 const createInvestmentBodySchema = z.object({
   name: z.string(),
@@ -29,14 +31,19 @@ const createInvestmentBodySchema = z.object({
 type CreateInvestmentBodySchema = z.infer<typeof createInvestmentBodySchema>
 
 @Controller("/investments")
-@Public()
 export class CreateInvestmentController {
   constructor(private registerInvestment: CreateInvestmentUseCase) {}
 
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createInvestmentBodySchema))
-  async handle(@Body() body: CreateInvestmentBodySchema) {
+  async handle(
+    @Body() body: CreateInvestmentBodySchema,
+    @CurrentUser() user: UserPayload,
+  ) {
+    if (!user.isAdmin) {
+      throw new UnauthorizedException()
+    }
     const {
       name,
       description,

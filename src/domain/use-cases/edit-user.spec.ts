@@ -67,8 +67,6 @@ describe("Edit User", () => {
       phone: "987654321",
     })
 
-    console.log(result)
-
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotFoundException)
   })

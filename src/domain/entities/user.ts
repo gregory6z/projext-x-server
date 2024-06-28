@@ -65,7 +65,7 @@ export class User extends Entity<UserProps> {
     const user = new User(
       {
         ...props,
-        isAdmin: false,
+        isAdmin: props.isAdmin ?? false,
       },
       id,
     )

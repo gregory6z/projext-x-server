@@ -21,12 +21,15 @@ import { AuthModule } from "../auth/auth.module"
 import { CreateAccountController } from "../controllers/create-account.controller"
 import { CreateInvestmentController } from "../controllers/create-investment.controller"
 import { FetchInvestmentController } from "../controllers/fetch-investment.controller"
+import { AuthenticateClientUseCase } from "../auth/authenticate.use-case"
+import { AuthenticateController } from "../auth/authenticate-client.controller"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
   controllers: [
     CreateAccountController,
     CreateInvestmentController,
+    AuthenticateController,
     FetchInvestmentController,
   ],
   providers: [
@@ -46,6 +49,7 @@ import { FetchInvestmentController } from "../controllers/fetch-investment.contr
     UpdateStatusInvestmentPurchaseUseCase,
     UpdateTransactionStatusUseCase,
     AddMonthlyProfitUseCase,
+    AuthenticateClientUseCase,
   ],
 })
 export class HttpModule {}

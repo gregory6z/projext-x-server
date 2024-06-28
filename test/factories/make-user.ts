@@ -1,6 +1,9 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
 import { User, UserProps } from "@/domain/entities/user"
+import { PrismaUsersMapper } from "@/infra/database/prisma/mappers/prisma-user-mapper"
+import { PrismaService } from "@/infra/database/prisma/prisma.service"
 import { fakerFR } from "@faker-js/faker"
+import { Injectable } from "@nestjs/common"
 
 export function makeUser(
   override: Partial<UserProps> = {},
@@ -14,6 +17,7 @@ export function makeUser(
       phone: fakerFR.phone.number(),
       birthDate: fakerFR.date.past(),
       address: fakerFR.location.streetAddress(),
+      isAdmin: false,
 
       password: fakerFR.internet.password(),
       ...override,
@@ -24,17 +28,17 @@ export function makeUser(
   return user
 }
 
-// @Injectable()
-// export class StudentFactory {
-//   constructor(private prisma: PrismaService) {}
+@Injectable()
+export class UserFactory {
+  constructor(private prisma: PrismaService) {}
 
-//   async makePrismaStudent(data: Partial<StudentProps> = {}): Promise<Student> {
-//     const student = makeStudent(data)
+  async makePrismaUser(data: Partial<UserProps> = {}): Promise<User> {
+    const user = makeUser(data)
 
-//     await this.prisma.user.create({
-//       data: PrismaStudentMapper.toPrisma(student),
-//     })
+    await this.prisma.user.create({
+      data: PrismaUsersMapper.toPrisma(user),
+    })
 
-//     return student
-//   }
-// }
+    return user
+  }
+}
