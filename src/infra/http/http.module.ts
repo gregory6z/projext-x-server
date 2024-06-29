@@ -7,7 +7,6 @@ import { CreateInvestmentUseCase } from "@/domain/use-cases/create-investment"
 import { CreateTransactionUseCase } from "@/domain/use-cases/create-transaction"
 import { CreateUserUseCase } from "@/domain/use-cases/create-user"
 import { DeleteExternalBankUseCase } from "@/domain/use-cases/delete-external-bank"
-import { EditUserUseCase } from "@/domain/use-cases/edit-user"
 import { FetchInvestmentPurchaseByAccountIdUseCase } from "@/domain/use-cases/fetch-investment-purchase-by-account"
 import { FetchInvestmentsUseCase } from "@/domain/use-cases/fetch-investments"
 import { FetchTransactionsUseCase } from "@/domain/use-cases/fetch-transactions"
@@ -27,6 +26,8 @@ import { CreateBankAccountController } from "../controllers/create-bank-account.
 import { CreateBankExternalController } from "../controllers/create-external-bank.controller"
 import { DeleteExternalBankController } from "../controllers/delete-external-bank.controller"
 import { CreateTransactionController } from "../controllers/create-transaction.controller"
+import { UpdateUserContactInfoUseCaseUseCase } from "@/domain/use-cases/update-user-contact-info"
+import { UpdateUserContactInfoController } from "../controllers/update-user-contact-info.controller"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -39,6 +40,7 @@ import { CreateTransactionController } from "../controllers/create-transaction.c
     CreateBankExternalController,
     DeleteExternalBankController,
     CreateTransactionController,
+    UpdateUserContactInfoController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,
@@ -48,7 +50,7 @@ import { CreateTransactionController } from "../controllers/create-transaction.c
     CreateTransactionUseCase,
     CreateUserUseCase,
     DeleteExternalBankUseCase,
-    EditUserUseCase,
+    UpdateUserContactInfoUseCaseUseCase,
     FetchInvestmentPurchaseByAccountIdUseCase,
     FetchInvestmentsUseCase,
     FetchTransactionsUseCase,

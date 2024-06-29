@@ -2,17 +2,15 @@ import { Either, left, right } from "@/core/either"
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error"
 import { UsersRepository } from "../repositories/users-repository"
 import { Encrypter } from "@/core/cryptography/encrypter"
-import { HashGenerator } from "@/core/cryptography/hash-generator"
 import { Injectable, NotFoundException } from "@nestjs/common"
 
-interface EditUserUseCaseRequest {
+interface UpdateUserContactInfoUseCaseUseCaseRequest {
   address?: string
   userId: string
   phone?: string
-  password?: string
 }
 
-type EditUserUseCaseResponse = Either<
+type UpdateUserContactInfoUseCaseUseCaseResponse = Either<
   NotAllowedError,
   {
     accessToken: string
@@ -20,28 +18,21 @@ type EditUserUseCaseResponse = Either<
 >
 
 @Injectable()
-export class EditUserUseCase {
+export class UpdateUserContactInfoUseCaseUseCase {
   constructor(
     private userRepository: UsersRepository,
     private encrypter: Encrypter,
-    private hashGenerator: HashGenerator,
   ) {}
 
   async execute({
     address,
     userId,
     phone,
-    password,
-  }: EditUserUseCaseRequest): Promise<EditUserUseCaseResponse> {
+  }: UpdateUserContactInfoUseCaseUseCaseRequest): Promise<UpdateUserContactInfoUseCaseUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
       return left(new NotFoundException())
-    }
-
-    if (password) {
-      const hashedPassword = await this.hashGenerator.hash(password)
-      user.password = hashedPassword
     }
 
     if (address) {

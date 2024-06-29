@@ -1,26 +1,23 @@
-import { FakeHasher } from "test/cryptography/fake-hasher"
 import { InMemoryUsersRepository } from "test/repositories/in-memory-user-repository"
 import { FakeEncrypter } from "test/cryptography/fake-encrypter"
 import { makeUser } from "test/factories/make-user"
-import { EditUserUseCase } from "./edit-user"
 import { NotFoundException } from "@nestjs/common"
+import { UpdateUserContactInfoUseCaseUseCase } from "./update-user-contact-info"
 let inMemoryUsersRepository: InMemoryUsersRepository
 
 let fakeEncrypter: FakeEncrypter
-let fakeHasher: FakeHasher
 
-let sut: EditUserUseCase
+let sut: UpdateUserContactInfoUseCaseUseCase
 
 describe("Edit User", () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    fakeHasher = new FakeHasher()
+
     fakeEncrypter = new FakeEncrypter()
 
-    sut = new EditUserUseCase(
+    sut = new UpdateUserContactInfoUseCaseUseCase(
       inMemoryUsersRepository,
       fakeEncrypter,
-      fakeHasher,
     )
   })
 
@@ -42,23 +39,23 @@ describe("Edit User", () => {
     expect(inMemoryUsersRepository.items[0].address).toEqual("321 Street")
   })
 
-  it("should hash client password upon editing", async () => {
-    const user = makeUser({
-      password: "123456",
-    })
+  // it("should hash client password upon editing", async () => {
+  //   const user = makeUser({
+  //     password: "123456",
+  //   })
 
-    inMemoryUsersRepository.items.push(user)
+  //   inMemoryUsersRepository.items.push(user)
 
-    const result = await sut.execute({
-      userId: user.id.toString(),
-      password: "654321",
-    })
+  //   const result = await sut.execute({
+  //     userId: user.id.toString(),
+  //     password: "654321",
+  //   })
 
-    const hashedPassword = await fakeHasher.hash("654321")
+  //   const hashedPassword = await fakeHasher.hash("654321")
 
-    expect(result.isRight()).toBe(true)
-    expect(inMemoryUsersRepository.items[0].password).toEqual(hashedPassword)
-  })
+  //   expect(result.isRight()).toBe(true)
+  //   expect(inMemoryUsersRepository.items[0].password).toEqual(hashedPassword)
+  // })
   it("should return an error when the user is not found", async () => {
     const nonExistentUserId = "some-non-existent-id"
 
