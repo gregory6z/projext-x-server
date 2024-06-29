@@ -13,7 +13,6 @@ export function makeExternalBank(
     {
       userId: fakerFR.string.uuid(),
       accountHolderName: fakerFR.person.fullName(),
-      accountNumber: fakerFR.finance.routingNumber(),
       iban: fakerFR.finance.iban(),
       bic: fakerFR.finance.bic(),
       ...override,

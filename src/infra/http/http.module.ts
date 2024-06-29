@@ -23,6 +23,8 @@ import { CreateInvestmentController } from "../controllers/create-investment.con
 import { FetchInvestmentController } from "../controllers/fetch-investment.controller"
 import { AuthenticateClientUseCase } from "../auth/authenticate.use-case"
 import { AuthenticateController } from "../auth/authenticate-client.controller"
+import { CreateBankAccountController } from "../controllers/create-bank-account.controller"
+import { CreateBankExternalController } from "../controllers/create-external-bank.controller"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -31,6 +33,8 @@ import { AuthenticateController } from "../auth/authenticate-client.controller"
     CreateInvestmentController,
     AuthenticateController,
     FetchInvestmentController,
+    CreateBankAccountController,
+    CreateBankExternalController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,

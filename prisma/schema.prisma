@@ -60,10 +60,11 @@ model BankAccount {
 
   user User @relation(fields: [userId], references: [id])
 
-  externalBank ExternalBank?
+  externalBank ExternalBank? @relation(fields: [externalBankId], references: [id])
 
   transaction         Transaction[]
   investmentPurchased InvestmentPurchase[]
+  externalBankId      String?
 
   @@map("bank_accounts")
 }
@@ -71,14 +72,13 @@ model BankAccount {
 model ExternalBank {
   id                String @id
   userId            String @unique @map("user_id")
-  accountId         String @unique @map("account_id")
   accountHolderName String
 
   iban String
   bic  String
 
-  user    User        @relation(fields: [userId], references: [id])
-  account BankAccount @relation(fields: [accountId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
+  BankAccount BankAccount[]
 
   @@map("external_banks")
 }

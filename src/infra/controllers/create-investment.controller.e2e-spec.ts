@@ -130,7 +130,5 @@ describe("Create Investment (E2E)", () => {
       statusCode: 401,
       message: "Unauthorized",
     })
-
-    console.log(response.body)
   })
 })

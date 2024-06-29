@@ -8,7 +8,6 @@ import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-e
 
 interface CreateExternalBankUseCaseRequest {
   accountHolderName: string
-  accountId: string
   iban: string
   bic: string
   userId: string
@@ -33,7 +32,6 @@ export class CreateExternalBankUseCase {
     accountHolderName,
     bic,
     iban,
-    accountId,
   }: CreateExternalBankUseCaseRequest): Promise<CreateExternalBankUseCaseResponse> {
     const user = await this.userRepository.findById(userId)
 
@@ -45,7 +43,6 @@ export class CreateExternalBankUseCase {
       userId: user.id.toString(),
       accountHolderName,
       bic,
-      accountId,
       iban,
     })
 
