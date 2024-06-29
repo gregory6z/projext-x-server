@@ -50,11 +50,13 @@ describe("Fetch Balance Use Case", () => {
     const depositTransaction = makeTransaction({
       type: "deposit",
       accountId: account.id.toString(),
+      status: "completed",
       amount: 1000,
     })
     const withdrawalTransaction = makeTransaction({
       type: "withdrawal",
       accountId: account.id.toString(),
+
       amount: 500,
     })
 

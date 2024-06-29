@@ -38,6 +38,8 @@ model User {
   phone    String
   password String
 
+  accountNumber String?
+
   bankAccount BankAccount?
 
   externalBanks ExternalBank[]

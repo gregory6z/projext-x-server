@@ -10,11 +10,21 @@ export interface UserProps {
   email: string
   phone: string
   password: string
+
+  accountNumber: string | null
 }
 
 export class User extends Entity<UserProps> {
   get firstName(): string {
     return this.props.firstName
+  }
+
+  get accountNumber(): string | null {
+    return this.props.accountNumber
+  }
+
+  set accountNumber(accountNumber: string | null) {
+    this.props.accountNumber = accountNumber
   }
 
   get isAdmin(): boolean {

@@ -41,7 +41,10 @@ export class GetBalanceUseCase {
       await this.transactionsRepository.findManyByAccountId(accountId)
 
     transactions.forEach((transaction) => {
-      if (transaction.type === "deposit") {
+      if (
+        transaction.type === "deposit" &&
+        transaction.status === "completed"
+      ) {
         balanceValue += transaction.amount
       } else if (transaction.type === "withdrawal") {
         balanceValue -= transaction.amount

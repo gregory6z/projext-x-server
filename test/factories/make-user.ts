@@ -18,7 +18,7 @@ export function makeUser(
       birthDate: fakerFR.date.past(),
       address: fakerFR.location.streetAddress(),
       isAdmin: false,
-
+      accountNumber: null,
       password: fakerFR.internet.password(),
       ...override,
     },

@@ -48,6 +48,7 @@ export class CreateUserUseCase {
 
     const user = User.create({
       email,
+      accountNumber: null,
       firstName,
       lastName,
       birthDate,
