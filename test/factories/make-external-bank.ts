@@ -3,7 +3,10 @@ import {
   ExternalBank,
   ExternalBankProps,
 } from "@/domain/entities/external-bank"
+import { PrismaExternalBanksMapper } from "@/infra/database/prisma/mappers/prisma-external-bank-mapper"
+import { PrismaService } from "@/infra/database/prisma/prisma.service"
 import { fakerFR } from "@faker-js/faker"
+import { Injectable } from "@nestjs/common"
 
 export function makeExternalBank(
   override: Partial<ExternalBankProps> = {},
@@ -21,4 +24,21 @@ export function makeExternalBank(
   )
 
   return bankExternal
+}
+
+@Injectable()
+export class ExternalBankFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaExternalBank(
+    data: Partial<ExternalBankProps> = {},
+  ): Promise<ExternalBank> {
+    const externalBank = makeExternalBank(data)
+
+    await this.prisma.externalBank.create({
+      data: PrismaExternalBanksMapper.toPrisma(externalBank),
+    })
+
+    return externalBank
+  }
 }
