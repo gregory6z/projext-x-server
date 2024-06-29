@@ -28,6 +28,7 @@ import { DeleteExternalBankController } from "../controllers/delete-external-ban
 import { CreateTransactionController } from "../controllers/create-transaction.controller"
 import { UpdateUserContactInfoUseCaseUseCase } from "@/domain/use-cases/update-user-contact-info"
 import { UpdateUserContactInfoController } from "../controllers/update-user-contact-info.controller"
+import { FetchTransactionsController } from "../controllers/fetch-transacations"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -41,6 +42,7 @@ import { UpdateUserContactInfoController } from "../controllers/update-user-cont
     DeleteExternalBankController,
     CreateTransactionController,
     UpdateUserContactInfoController,
+    FetchTransactionsController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,

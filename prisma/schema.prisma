@@ -87,7 +87,7 @@ model ExternalBank {
 
 model Transaction {
   id        String          @id
-  accountId String          @unique @map("account_id")
+  accountId String          @map("account_id")
   type      TransactionType
 
   status Status @default(pending)

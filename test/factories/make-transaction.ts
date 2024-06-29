@@ -16,6 +16,8 @@ export function makeTransaction(
 
       accountId: fakerFR.string.uuid(),
       status: "pending",
+      updatedAt: null,
+
       ...override,
     },
     id,

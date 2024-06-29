@@ -13,6 +13,7 @@ export class PrismaTransactionsMapper {
 
         amount: raw.amount.toNumber(),
         createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -29,6 +30,7 @@ export class PrismaTransactionsMapper {
 
       amount: transaction.amount,
       createdAt: transaction.createdAt,
+      updatedAt: transaction.updatedAt,
     }
   }
 }

@@ -48,6 +48,7 @@ export class CreateTransactionUseCase {
       type,
       amount,
       status: "pending",
+      updatedAt: new Date(),
     })
 
     await this.transactionRepository.create(transaction)

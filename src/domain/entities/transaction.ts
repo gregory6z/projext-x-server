@@ -9,6 +9,7 @@ export interface TransactionProps {
 
   amount: number
   createdAt?: Date
+  updatedAt: Date | null
 }
 
 export class Transaction extends AggregateRoot<TransactionProps> {
@@ -22,6 +23,7 @@ export class Transaction extends AggregateRoot<TransactionProps> {
 
   set status(value: "pending" | "completed" | "failed") {
     this.props.status = value
+    this.touch()
   }
 
   get type(): "deposit" | "withdrawal" {
@@ -30,6 +32,14 @@ export class Transaction extends AggregateRoot<TransactionProps> {
 
   get amount(): number {
     return this.props.amount
+  }
+
+  get updatedAt(): Date | null {
+    return this.props.updatedAt ?? null
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date()
   }
 
   get createdAt() {

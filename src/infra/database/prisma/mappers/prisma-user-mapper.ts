@@ -27,6 +27,7 @@ export class PrismaUsersMapper {
       lastName: user.lastName,
       address: user.address,
       isAdmin: user.isAdmin,
+      accountNumber: user.accountNumber,
       birthDate: user.birthDate,
       email: user.email,
       phone: user.phone,

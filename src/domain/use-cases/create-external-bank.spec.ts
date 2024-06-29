@@ -30,7 +30,6 @@ describe("Create external bank account", () => {
       accountHolderName: "John Doe",
       bic: "123456",
       iban: "123456",
-      accountId: "12345678",
     })
 
     expect(result.isRight()).toBe(true)
@@ -46,7 +45,6 @@ describe("Create external bank account", () => {
       accountHolderName: "John Doe",
       bic: "123456",
       iban: "123456",
-      accountId: "221245",
     })
 
     expect(result.isLeft()).toBe(true)
