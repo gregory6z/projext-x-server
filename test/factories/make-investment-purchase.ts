@@ -3,6 +3,10 @@ import {
   InvestmentPurchase,
   InvestmentPurchaseProps,
 } from "@/domain/entities/investiment-purchase"
+import { PrismaInvestmentPurchasesMapper } from "@/infra/database/prisma/mappers/prisma-investment-purchase"
+import { PrismaService } from "@/infra/database/prisma/prisma.service"
+import { fakerFR } from "@faker-js/faker"
+import { Injectable } from "@nestjs/common"
 
 export function makeInvestmentPurchase(
   override: Partial<InvestmentPurchaseProps> = {},
@@ -10,10 +14,11 @@ export function makeInvestmentPurchase(
 ) {
   const investmentPurchase = InvestmentPurchase.create(
     {
-      accountId: "1",
-      investmentId: "1",
+      accountId: fakerFR.string.uuid(),
+
+      investmentId: fakerFR.string.uuid(),
       initialAmount: 100,
-      status: "completed",
+      status: "pending",
       paymentType: "normal",
       ...override,
     },
@@ -23,17 +28,19 @@ export function makeInvestmentPurchase(
   return investmentPurchase
 }
 
-// @Injectable()
-// export class StudentFactory {
-//   constructor(private prisma: PrismaService) {}
+@Injectable()
+export class InvestmentPurchaseFactory {
+  constructor(private prisma: PrismaService) {}
 
-//   async makePrismaStudent(data: Partial<StudentProps> = {}): Promise<Student> {
-//     const student = makeStudent(data)
+  async makePrismaInvestmentPurchase(
+    data: Partial<InvestmentPurchaseProps> = {},
+  ): Promise<InvestmentPurchase> {
+    const investmentPurchase = makeInvestmentPurchase(data)
 
-//     await this.prisma.user.create({
-//       data: PrismaStudentMapper.toPrisma(student),
-//     })
+    await this.prisma.investmentPurchase.create({
+      data: PrismaInvestmentPurchasesMapper.toPrisma(investmentPurchase),
+    })
 
-//     return student
-//   }
-// }
+    return investmentPurchase
+  }
+}

@@ -11,9 +11,6 @@ export interface InvestmentPurchaseProps {
 
   status: "pending" | "completed" | "failed"
 
-  stripeCustomerId?: string | null
-  stripeSubscriptionId?: string | null
-
   initialAmount: number
 
   totalAmount?: number
@@ -72,14 +69,6 @@ export class InvestmentPurchase extends AggregateRoot<InvestmentPurchaseProps> {
     this.touch()
   }
 
-  get stripeCustomerId(): string | null {
-    return this.props.stripeCustomerId ?? null
-  }
-
-  get stripeSubscriptionId(): string | null {
-    return this.props.stripeSubscriptionId ?? null
-  }
-
   // get amountProfits(): AmountProfits[] | null {
   //   return this.props.amountProfits ?? null
   // }
@@ -106,8 +95,6 @@ export class InvestmentPurchase extends AggregateRoot<InvestmentPurchaseProps> {
         ...props,
         createdAt: props.createdAt ?? new Date(),
         paymentType: props.paymentType ?? "normal",
-        stripeCustomerId: props.stripeCustomerId ?? null,
-        stripeSubscriptionId: props.stripeSubscriptionId ?? null,
         status: props.status ?? "pending",
         amountProfits: props.amountProfits ?? [],
       },

@@ -29,6 +29,7 @@ import { CreateTransactionController } from "../controllers/create-transaction.c
 import { UpdateUserContactInfoUseCaseUseCase } from "@/domain/use-cases/update-user-contact-info"
 import { UpdateUserContactInfoController } from "../controllers/update-user-contact-info.controller"
 import { FetchTransactionsController } from "../controllers/fetch-transacations"
+import { CreateInvestmentPurchaseUseCase } from "@/domain/use-cases/create-investment-purchase"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -62,6 +63,7 @@ import { FetchTransactionsController } from "../controllers/fetch-transacations"
     UpdateTransactionStatusUseCase,
     AddMonthlyProfitUseCase,
     AuthenticateClientUseCase,
+    CreateInvestmentPurchaseUseCase,
   ],
 })
 export class HttpModule {}

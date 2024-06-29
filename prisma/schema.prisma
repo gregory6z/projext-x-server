@@ -158,9 +158,6 @@ model InvestmentPurchase {
 
   status PaymentStatus
 
-  stripeCustomerId     String? @map("stripe_customer_id")
-  stripeSubscriptionId String? @map("stripe_subscription_id")
-
   initialAmount Decimal @map("initial_amount")
 
   totalAmount Decimal @map("total_amount")
