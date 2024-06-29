@@ -25,6 +25,7 @@ import { AuthenticateClientUseCase } from "../auth/authenticate.use-case"
 import { AuthenticateController } from "../auth/authenticate-client.controller"
 import { CreateBankAccountController } from "../controllers/create-bank-account.controller"
 import { CreateBankExternalController } from "../controllers/create-external-bank.controller"
+import { DeleteExternalBankController } from "../controllers/delete-external-bank.controller"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -35,6 +36,7 @@ import { CreateBankExternalController } from "../controllers/create-external-ban
     FetchInvestmentController,
     CreateBankAccountController,
     CreateBankExternalController,
+    DeleteExternalBankController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,

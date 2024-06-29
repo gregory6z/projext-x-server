@@ -8,7 +8,7 @@ export class PrismaExternalBanksMapper {
       {
         userId: raw.userId,
         accountHolderName: raw.accountHolderName,
-        accountId: raw.accountId,
+
         iban: raw.iban,
         bic: raw.bic,
       },
@@ -23,7 +23,7 @@ export class PrismaExternalBanksMapper {
       id: externalBank.id.toString(),
       userId: externalBank.userId,
       accountHolderName: externalBank.accountHolderName,
-      accountId: externalBank.accountId,
+
       iban: externalBank.iban,
       bic: externalBank.bic,
     }

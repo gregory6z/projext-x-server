@@ -1,13 +1,6 @@
 import { z } from "zod"
 
-import {
-  Body,
-  Controller,
-  Delete,
-  HttpCode,
-  HttpStatus,
-  UsePipes,
-} from "@nestjs/common"
+import { Body, Controller, Delete, HttpCode, UsePipes } from "@nestjs/common"
 import { ZodValidationPipe } from "../http/pipes/zod-validation.pipe"
 import { UserPayload } from "../auth/jwt.strategy"
 import { CurrentUser } from "../auth/current-user-decorator"
@@ -24,7 +17,7 @@ export class DeleteExternalBankController {
   constructor(private deleteExternalBank: DeleteExternalBankUseCase) {}
 
   @Delete()
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(204)
   @UsePipes(new ZodValidationPipe(deleteExternalBankBodySchema))
   async handle(
     @Body() body: DeleteExternalBankBodySchema,

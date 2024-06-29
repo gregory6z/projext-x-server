@@ -10,7 +10,6 @@ export class CreateBankAccountController {
   @Post()
   @HttpCode(201)
   async handle(@CurrentUser() user: UserPayload) {
-    console.log(user)
     const result = await this.createBankAccount.execute({
       userId: user.sub,
     })
