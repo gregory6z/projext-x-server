@@ -10,7 +10,7 @@ import { Injectable } from "@nestjs/common"
 interface RegisterInvestmentPurchaseUseCaseRequest {
   accountId: string
   investmentId: string
-  paymentType: "normal" | "subscription"
+
   initialAmount: number
 }
 
@@ -32,7 +32,7 @@ export class RegisterInvestmentPurchaseUseCase {
   async execute({
     accountId,
     investmentId,
-    paymentType,
+
     initialAmount,
   }: RegisterInvestmentPurchaseUseCaseRequest): Promise<RegisterInvestmentPurchaseUseCaseResponse> {
     const bankAccount = await this.bankAccountRepository.findById(
@@ -54,7 +54,7 @@ export class RegisterInvestmentPurchaseUseCase {
     const investmentPurchase = InvestmentPurchase.create({
       accountId,
       investmentId,
-      paymentType,
+      paymentType: "normal",
       initialAmount,
       status: "pending",
     })

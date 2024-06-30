@@ -36,7 +36,7 @@ describe("Register Investment Purchase", () => {
     const result = await sut.execute({
       accountId: account.accountNumber.toString(),
       investmentId: investment.id.toString(),
-      paymentType: "normal",
+
       initialAmount: 1000,
     })
 
@@ -62,7 +62,7 @@ describe("Register Investment Purchase", () => {
     const response = await sut.execute({
       accountId: "nonExistingAccountId",
       investmentId: "validInvestmentId", // Certifique-se de que este ID exista no repositório de investimentos se necessário
-      paymentType: "normal",
+
       initialAmount: 1000,
     })
 
@@ -84,7 +84,7 @@ describe("Register Investment Purchase", () => {
     const response = await sut.execute({
       accountId: bankAccount.id.toString(),
       investmentId: "nonExistingInvestmentId",
-      paymentType: "normal",
+
       initialAmount: 1000,
     })
 
