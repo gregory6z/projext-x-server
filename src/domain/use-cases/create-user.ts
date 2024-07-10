@@ -4,6 +4,7 @@ import { HashGenerator } from "@/core/cryptography/hash-generator"
 import { UsersRepository } from "../repositories/users-repository"
 import { User } from "../entities/user"
 import { Injectable } from "@nestjs/common"
+import { CreateBankAccountUseCase } from "./create-bank-account"
 
 interface CreateUserUseCaseRequest {
   firstName: string
@@ -27,6 +28,7 @@ export class CreateUserUseCase {
   constructor(
     private userRepository: UsersRepository,
     private hashGenerator: HashGenerator,
+    private createBankAccountUseCase: CreateBankAccountUseCase, // Injete a dependência
   ) {}
 
   async execute({
@@ -59,6 +61,10 @@ export class CreateUserUseCase {
     })
 
     await this.userRepository.create(user)
+
+    await this.createBankAccountUseCase.execute({
+      userId: user.id.toString(),
+    })
 
     return right({
       user,
