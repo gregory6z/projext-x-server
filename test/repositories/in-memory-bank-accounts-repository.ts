@@ -19,6 +19,18 @@ export class InMemoryBankAccountsRepository implements BankAccountsRepository {
     return bankAccount
   }
 
+  async findByUserId(userId: string) {
+    const bankAccount = this.items.find(
+      (item) => item.userId.toString() === userId,
+    )
+
+    if (!bankAccount) {
+      return null
+    }
+
+    return bankAccount
+  }
+
   async update(bankAccount: BankAccount): Promise<void> {
     const index = this.items.findIndex(
       (item) => item.id.toString() === bankAccount.id.toString(),

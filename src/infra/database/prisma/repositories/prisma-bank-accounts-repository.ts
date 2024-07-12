@@ -16,6 +16,20 @@ export class PrismaBankAccountsRepository implements BankAccountsRepository {
     })
   }
 
+  async findByUserId(userId: string): Promise<BankAccount | null> {
+    const bankAccount = await this.prisma.bankAccount.findFirst({
+      where: {
+        userId,
+      },
+    })
+
+    if (!bankAccount) {
+      return null
+    }
+
+    return PrismaBankAccountsMapper.toDomain(bankAccount)
+  }
+
   async update(bankAccount: BankAccount): Promise<void> {
     const data = PrismaBankAccountsMapper.toPrisma(bankAccount)
     await this.prisma.bankAccount.update({

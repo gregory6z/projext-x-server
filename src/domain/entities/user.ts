@@ -1,5 +1,6 @@
 import { Entity } from "@/core/entities/entity"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id"
+import { BankAccount } from "./bank-account"
 
 export interface UserProps {
   firstName: string
@@ -11,7 +12,7 @@ export interface UserProps {
   phone: string
   password: string
 
-  accountNumber: string | null
+  bankAccount: BankAccount | null
 }
 
 export class User extends Entity<UserProps> {
@@ -19,12 +20,12 @@ export class User extends Entity<UserProps> {
     return this.props.firstName
   }
 
-  get accountNumber(): string | null {
-    return this.props.accountNumber
+  get bankAccount(): BankAccount | null {
+    return this.props.bankAccount
   }
 
-  set accountNumber(accountNumber: string | null) {
-    this.props.accountNumber = accountNumber
+  set bankAccount(account: BankAccount) {
+    this.props.bankAccount = account
   }
 
   get isAdmin(): boolean {
@@ -76,6 +77,7 @@ export class User extends Entity<UserProps> {
       {
         ...props,
         isAdmin: props.isAdmin ?? false,
+        bankAccount: props.bankAccount ?? null,
       },
       id,
     )

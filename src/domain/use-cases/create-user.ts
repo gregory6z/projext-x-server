@@ -50,11 +50,11 @@ export class CreateUserUseCase {
 
     const user = User.create({
       email,
-      accountNumber: null,
       firstName,
       lastName,
       birthDate,
       phone,
+      bankAccount: null,
       isAdmin: false,
       address,
       password: hashedPassword,

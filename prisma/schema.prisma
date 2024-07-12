@@ -38,8 +38,6 @@ model User {
   phone    String
   password String
 
-  accountNumber String?
-
   bankAccount BankAccount?
 
   externalBanks ExternalBank[]
@@ -62,11 +60,8 @@ model BankAccount {
 
   user User @relation(fields: [userId], references: [id])
 
-  externalBank ExternalBank? @relation(fields: [externalBankId], references: [id])
-
   transaction         Transaction[]
   investmentPurchased InvestmentPurchase[]
-  externalBankId      String?
 
   @@map("bank_accounts")
 }
@@ -79,8 +74,7 @@ model ExternalBank {
   iban String
   bic  String
 
-  user        User          @relation(fields: [userId], references: [id])
-  BankAccount BankAccount[]
+  user User @relation(fields: [userId], references: [id])
 
   @@map("external_banks")
 }

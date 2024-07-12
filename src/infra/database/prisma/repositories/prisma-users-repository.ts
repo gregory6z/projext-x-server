@@ -45,6 +45,14 @@ export class PrismaUsersRepository implements UsersRepository {
       where: {
         id,
       },
+      include: {
+        bankAccount: {
+          include: {
+            transaction: true,
+            investmentPurchased: true,
+          },
+        },
+      },
     })
 
     if (!user) {

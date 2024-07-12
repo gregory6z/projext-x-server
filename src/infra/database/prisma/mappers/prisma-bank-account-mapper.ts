@@ -11,7 +11,6 @@ export class PrismaBankAccountsMapper {
         balance: raw.balance.toNumber(),
         availableWithdrawal: raw.availableWithdrawal.toNumber(), // dinheiro disponível para saque
         createdAt: raw.createdAt,
-        // updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -25,7 +24,7 @@ export class PrismaBankAccountsMapper {
       userId: bankAccount.userId,
       accountNumber: bankAccount.accountNumber,
       balance: bankAccount.balance,
-      availableWithdrawal: bankAccount.availableWithdrawal, // dinheiro disponível para saque
+      availableWithdrawal: bankAccount.availableWithdrawal,
       createdAt: bankAccount.createdAt,
       updatedAt: bankAccount.updatedAt,
     }

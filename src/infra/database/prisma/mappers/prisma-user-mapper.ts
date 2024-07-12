@@ -14,7 +14,7 @@ export class PrismaUsersMapper {
         email: raw.email,
         phone: raw.phone,
         password: raw.password,
-        accountNumber: raw.accountNumber,
+        bankAccount: null,
       },
       new UniqueEntityID(raw.id),
     )
@@ -27,7 +27,7 @@ export class PrismaUsersMapper {
       lastName: user.lastName,
       address: user.address,
       isAdmin: user.isAdmin,
-      accountNumber: user.accountNumber,
+
       birthDate: user.birthDate,
       email: user.email,
       phone: user.phone,
