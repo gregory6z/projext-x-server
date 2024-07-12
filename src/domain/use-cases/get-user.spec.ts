@@ -2,30 +2,24 @@ import { BadRequestException } from "@nestjs/common"
 
 import { User } from "../entities/user"
 import { BankAccount } from "../entities/bank-account"
-import { Transaction } from "../entities/transaction"
 import { GetUserUseCase } from "./get-user"
-import { InMemoryTransactionsRepository } from "test/repositories/in-memory-transaction-repository"
 import { InMemoryBankAccountsRepository } from "test/repositories/in-memory-bank-accounts-repository"
 import { InMemoryUsersRepository } from "test/repositories/in-memory-user-repository"
 import { makeUser } from "test/factories/make-user"
 import { makeBankAccount } from "test/factories/make-bank-account"
-import { makeTransaction } from "test/factories/make-transaction"
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryBankAccountsRepository: InMemoryBankAccountsRepository
-let inMemoryTransactionsRepository: InMemoryTransactionsRepository
 let sut: GetUserUseCase
 
 describe("Get User", () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryBankAccountsRepository = new InMemoryBankAccountsRepository()
-    inMemoryTransactionsRepository = new InMemoryTransactionsRepository()
 
     sut = new GetUserUseCase(
       inMemoryUsersRepository,
       inMemoryBankAccountsRepository,
-      inMemoryTransactionsRepository,
     )
   })
 
@@ -45,14 +39,6 @@ describe("Get User", () => {
     inMemoryBankAccountsRepository.items.push(newBankAccount)
 
     // Create a new transaction for the user's bank account and add it to the repository
-    const newTransaction: Transaction = makeTransaction({
-      accountId: newBankAccount.id.toString(),
-      amount: 100,
-      type: "deposit",
-      createdAt: new Date(),
-    })
-
-    inMemoryTransactionsRepository.items.push(newTransaction)
 
     // Execute the use case
     const result = await sut.execute({ userId: newUser.id.toString() })
@@ -64,7 +50,6 @@ describe("Get User", () => {
     if (result.isRight()) {
       expect(result.value.user).toEqual(newUser)
       expect(result.value.bankAccount).toEqual(newBankAccount)
-      expect(result.value.transactions).toEqual([newTransaction])
     }
   })
 

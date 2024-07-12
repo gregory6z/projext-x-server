@@ -31,6 +31,8 @@ import { UpdateUserContactInfoController } from "../controllers/update-user-cont
 import { CreateInvestmentPurchaseUseCase } from "@/domain/use-cases/create-investment-purchase"
 import { FetchTransactionsController } from "../controllers/fetch-transactions"
 import { RegisterInvestmentPurchaseController } from "../controllers/register-investment-purchase.controller"
+import { GetUserController } from "../controllers/get-user.controller"
+import { GetUserUseCase } from "@/domain/use-cases/get-user"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -46,6 +48,7 @@ import { RegisterInvestmentPurchaseController } from "../controllers/register-in
     UpdateUserContactInfoController,
     FetchTransactionsController,
     RegisterInvestmentPurchaseController,
+    GetUserController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,
@@ -66,6 +69,7 @@ import { RegisterInvestmentPurchaseController } from "../controllers/register-in
     AddMonthlyProfitUseCase,
     AuthenticateClientUseCase,
     CreateInvestmentPurchaseUseCase,
+    GetUserUseCase,
   ],
 })
 export class HttpModule {}

@@ -3,8 +3,6 @@ import { UsersRepository } from "../repositories/users-repository"
 import { User } from "../entities/user"
 import { BadRequestException, Injectable } from "@nestjs/common"
 import { BankAccountsRepository } from "../repositories/bank-accounts-repository"
-import { TransactionsRepository } from "../repositories/transactions-repository"
-import { Transaction } from "../entities/transaction"
 import { BankAccount } from "../entities/bank-account"
 
 interface GetUserUseCaseRequest {
@@ -16,7 +14,6 @@ type GetUserUseCaseResponse = Either<
   {
     user: User
     bankAccount: BankAccount
-    transactions: Transaction[]
   }
 >
 
@@ -25,7 +22,6 @@ export class GetUserUseCase {
   constructor(
     private userRepository: UsersRepository,
     private bankAccountsRepository: BankAccountsRepository,
-    private transactionsRepository: TransactionsRepository,
   ) {}
 
   async execute({
@@ -45,15 +41,9 @@ export class GetUserUseCase {
       return left(new BadRequestException())
     }
 
-    const accountId = bankAccount.id.toString()
-
-    const transactions =
-      (await this.transactionsRepository.findManyByAccountId(accountId)) ?? []
-
     return right({
       user,
       bankAccount,
-      transactions,
     })
   }
 }
