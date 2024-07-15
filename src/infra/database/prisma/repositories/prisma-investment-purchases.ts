@@ -52,7 +52,7 @@ export class PrismaInvestmentPurchasesRepository
   async findByInvestmentId(
     investmentId: string,
   ): Promise<InvestmentPurchase | null> {
-    const investmentPurchase = await this.prisma.investmentPurchase.findUnique({
+    const investmentPurchase = await this.prisma.investmentPurchase.findFirst({
       where: {
         investmentId,
       },
@@ -66,7 +66,7 @@ export class PrismaInvestmentPurchasesRepository
   }
 
   async findByAccountId(accountId: string): Promise<InvestmentPurchase | null> {
-    const investmentPurchase = await this.prisma.investmentPurchase.findUnique({
+    const investmentPurchase = await this.prisma.investmentPurchase.findFirst({
       where: {
         accountId,
       },

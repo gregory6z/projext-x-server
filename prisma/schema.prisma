@@ -125,9 +125,11 @@ model Investment {
   initialDate DateTime? @map("initial_date")
   endDate     DateTime? @map("end_date")
 
-  createdAt          DateTime            @default(now()) @map("created_at")
-  updatedAt          DateTime?           @updatedAt @map("updated_at")
-  InvestmentPurchase InvestmentPurchase?
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime? @updatedAt @map("updated_at")
+  investmentPurchaseId String?
+
+  InvestmentPurchase InvestmentPurchase[]
 
   @@map("investments")
 }
@@ -145,8 +147,8 @@ enum PaymentType {
 
 model InvestmentPurchase {
   id           String @id
-  accountId    String @unique @map("account_id")
-  investmentId String @unique @map("investment_id")
+  accountId    String @map("account_id")
+  investmentId String @map("investment_id")
 
   paymentType PaymentType @map("payment_type")
 

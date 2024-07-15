@@ -5,25 +5,32 @@ import { Test } from "@nestjs/testing"
 import request from "supertest"
 import { UserFactory } from "test/factories/make-user"
 import { DatabaseModule } from "../database/database.module"
+import { TransactionFactory } from "test/factories/make-transaction"
 import { BankAccountFactory } from "test/factories/make-bank-account"
+import { InvestmentPurchaseFactory } from "test/factories/make-investment-purchase"
 import { InvestmentFactory } from "test/factories/make-investment"
-import { PrismaService } from "../database/prisma/prisma.service"
 
-describe("Register investment purchase (E2E)", () => {
+describe("Fetch Investments Purchases (E2E)", () => {
   let app: INestApplication
 
   let userFactory: UserFactory
-
   let bankAccountFactory: BankAccountFactory
+
   let investmentFactory: InvestmentFactory
-  let prisma: PrismaService
+  let investmentPurchaseFactory: InvestmentPurchaseFactory
 
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [UserFactory, InvestmentFactory, BankAccountFactory],
+      providers: [
+        UserFactory,
+        TransactionFactory,
+        BankAccountFactory,
+        InvestmentFactory,
+        InvestmentPurchaseFactory,
+      ],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -31,20 +38,19 @@ describe("Register investment purchase (E2E)", () => {
     jwt = moduleRef.get(JwtService)
     userFactory = moduleRef.get(UserFactory)
     bankAccountFactory = moduleRef.get(BankAccountFactory)
+
     investmentFactory = moduleRef.get(InvestmentFactory)
-    prisma = moduleRef.get(PrismaService)
+    investmentPurchaseFactory = moduleRef.get(InvestmentPurchaseFactory)
 
     await app.init()
   })
 
-  test("[POST] /:accountId/investment-purchase", async () => {
+  test("[GET] /investments-purchases", async () => {
     const user = await userFactory.makePrismaUser()
 
     const bankAccount = await bankAccountFactory.makePrismaBankAccount({
       userId: user.id.toString(),
     })
-
-    const investment = await investmentFactory.makePrismaInvestment()
 
     const accessToken = jwt.sign({
       sub: user.id.toString(),
@@ -54,36 +60,39 @@ describe("Register investment purchase (E2E)", () => {
       lastName: user.lastName,
     })
 
-    const investmentId = investment.id.toString()
+    const investment = await investmentFactory.makePrismaInvestment()
 
-    const response = await request(app.getHttpServer())
-      .post(`/${bankAccount.id.toString()}/investment-purchase`)
-      .set("Authorization", `Bearer ${accessToken}`)
-      .send({
-        investmentId,
-        initialAmount: 100,
-      })
-
-    expect(response.statusCode).toBe(201)
-
-    const userOnDatabase = await prisma.investmentPurchase.findFirst({
-      where: {
-        investmentId: investment.id.toString(),
-      },
+    await investmentPurchaseFactory.makePrismaInvestmentPurchase({
+      investmentId: investment.id.toString(),
+      accountId: bankAccount.id.toString(),
+      initialAmount: 200,
     })
 
-    console.log(userOnDatabase)
-
-    expect(userOnDatabase).toBeTruthy()
-  })
-
-  test("[POST] /:accountId/investment-purchase", async () => {
-    const accessToken = "invalid-token"
-
-    const invalidId = "invalid-id"
+    await investmentPurchaseFactory.makePrismaInvestmentPurchase({
+      investmentId: investment.id.toString(),
+      accountId: bankAccount.id.toString(),
+      initialAmount: 200,
+    })
 
     const response = await request(app.getHttpServer())
-      .post(`/${invalidId}/investment-purchase`)
+      .get(`/investments-purchases/${bankAccount.id.toString()}`) // Adicionando o accountId como parte do caminho
+
+      .set("Authorization", `Bearer ${accessToken}`)
+
+    console.log(response.body)
+
+    expect(response.statusCode).toBe(200)
+
+    expect(Array.isArray(response.body.investments)).toBeTruthy()
+
+    expect(response.body.investments).toHaveLength(2)
+  })
+
+  test("[GET] /investment-purchases", async () => {
+    const accessToken = "invalid-token"
+
+    const response = await request(app.getHttpServer())
+      .get(`/investments-purchases/123456`)
       .set("Authorization", `Bearer ${accessToken}`)
 
     expect(response.statusCode).toBe(401)

@@ -33,6 +33,7 @@ import { FetchTransactionsController } from "../controllers/fetch-transactions"
 import { RegisterInvestmentPurchaseController } from "../controllers/register-investment-purchase.controller"
 import { GetUserController } from "../controllers/get-user.controller"
 import { GetUserUseCase } from "@/domain/use-cases/get-user"
+import { FetchInvestmentPurchaseController } from "../controllers/fetch-investments-purchases.controller"
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, AuthModule],
@@ -49,6 +50,7 @@ import { GetUserUseCase } from "@/domain/use-cases/get-user"
     FetchTransactionsController,
     RegisterInvestmentPurchaseController,
     GetUserController,
+    FetchInvestmentPurchaseController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,
