@@ -11,6 +11,7 @@ interface CreateInvestmentUseCaseRequest {
   investmentType: string
 
   annualProfit: number
+
   fundraisingProgress: {
     current: number
     numberOfWeeks: number

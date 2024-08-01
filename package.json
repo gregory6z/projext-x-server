@@ -42,6 +42,7 @@
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",
     "sinon": "^18.0.0",
+    "stripe": "^16.2.0",
     "ulid": "^2.3.0",
     "unplugin-swc": "^1.4.5",
     "vite-tsconfig-paths": "^4.3.2",

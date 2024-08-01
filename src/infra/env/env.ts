@@ -6,6 +6,8 @@ export const envSchema = z.object({
   JWT_PUBLIC_KEY: z.string(),
   JWT_PRIVATE_KEY: z.string(),
 
+  STRIPE_SECRET_KEY: z.string(),
+
   // RESEND_KEY: z.string(),
   // URL_FRONTEND: z.string().url(),
   // NODE_ENV: z.string().optional().default("development"),

@@ -20,6 +20,7 @@ export interface BankAccountProps {
 export interface BankAccountCreationProps {
   userId: string
   accountNumber?: string
+
   balance?: number
   createdAt?: Date
 

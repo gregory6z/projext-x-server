@@ -68,6 +68,9 @@ dependencies:
   sinon:
     specifier: ^18.0.0
     version: 18.0.0
+  stripe:
+    specifier: ^16.2.0
+    version: 16.2.0
   ulid:
     specifier: ^2.3.0
     version: 2.3.0
@@ -5208,6 +5211,14 @@ packages:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
     dependencies:
       js-tokens: 9.0.0
+    dev: false
+
+  /stripe@16.2.0:
+    resolution: {integrity: sha512-kNHb5x6mlQJ8V92Afn+F+uyHG3U0+Mc1pOYxDkbEh/kI3oF63URnUt6dwTQthELYWBy04arerm2XjwgtzEPDEA==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.14.8
+      qs: 6.11.0
     dev: false
 
   /superagent@9.0.2:
