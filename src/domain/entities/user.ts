@@ -12,12 +12,22 @@ export interface UserProps {
   phone: string
   password: string
 
+  customerId: string | null
+
   bankAccount: BankAccount | null
 }
 
 export class User extends Entity<UserProps> {
   get firstName(): string {
     return this.props.firstName
+  }
+
+  get customerId(): string | null {
+    return this.props.customerId
+  }
+
+  set customerId(value: string) {
+    this.props.customerId = value
   }
 
   get bankAccount(): BankAccount | null {
@@ -78,6 +88,7 @@ export class User extends Entity<UserProps> {
         ...props,
         isAdmin: props.isAdmin ?? false,
         bankAccount: props.bankAccount ?? null,
+        customerId: props.customerId ?? null,
       },
       id,
     )

@@ -4,9 +4,9 @@ import { PaymentService } from "../payment/payment-service"
 
 interface CreatePaymentUseCaseRequest {
   amount: number
-  currency: string
+
   paymentMethod: {
-    type: string
+    type: "card"
     fields: {
       number: string
       expiration_month: string
@@ -32,13 +32,13 @@ export class CreatePaymentUseCase {
 
   async execute({
     amount,
-    currency,
+
     paymentMethod,
   }: CreatePaymentUseCaseRequest): Promise<CreatePaymentUseCaseResponse> {
     try {
       const paymentResponse = await this.paymentService.createPayment(
         amount,
-        currency,
+        "EUR",
         paymentMethod,
       )
 

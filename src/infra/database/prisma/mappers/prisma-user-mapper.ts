@@ -10,6 +10,7 @@ export class PrismaUsersMapper {
         lastName: raw.lastName,
         address: raw.address,
         isAdmin: raw.isAdmin,
+        customerId: raw.customerId,
         birthDate: raw.birthDate,
         email: raw.email,
         phone: raw.phone,
@@ -26,6 +27,7 @@ export class PrismaUsersMapper {
       firstName: user.firstName,
       lastName: user.lastName,
       address: user.address,
+      customerId: user.customerId,
       isAdmin: user.isAdmin,
 
       birthDate: user.birthDate,

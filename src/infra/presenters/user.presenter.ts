@@ -11,6 +11,7 @@ export class UserPresenter {
       birthDate: user.birthDate,
       email: user.email,
       phone: user.phone,
+      customerId: user.customerId,
     }
   }
 }

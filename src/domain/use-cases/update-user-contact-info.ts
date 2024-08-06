@@ -8,6 +8,7 @@ interface UpdateUserContactInfoUseCaseUseCaseRequest {
   address?: string
   userId: string
   phone?: string
+  customerId?: string
 }
 
 type UpdateUserContactInfoUseCaseUseCaseResponse = Either<
@@ -26,6 +27,7 @@ export class UpdateUserContactInfoUseCaseUseCase {
 
   async execute({
     address,
+    customerId,
     userId,
     phone,
   }: UpdateUserContactInfoUseCaseUseCaseRequest): Promise<UpdateUserContactInfoUseCaseUseCaseResponse> {
@@ -37,6 +39,10 @@ export class UpdateUserContactInfoUseCaseUseCase {
 
     if (address) {
       user.address = address
+    }
+
+    if (customerId) {
+      user.customerId = customerId
     }
 
     if (phone) {

@@ -16,10 +16,15 @@ const updateUserContactInfoBodySchema = z
   .object({
     address: z.string().optional(),
     phone: z.string().optional(),
+    customerId: z.string().optional(),
   })
-  .refine((data) => data.address != null || data.phone != null, {
-    message: "Either address or phone must be provided.",
-  })
+  .refine(
+    (data) =>
+      data.address != null || data.phone != null || data.customerId != null,
+    {
+      message: "Either address, phone, or customerId must be provided.",
+    },
+  )
 
 type UpdateUserContactInfoBodySchema = z.infer<
   typeof updateUserContactInfoBodySchema
@@ -37,11 +42,12 @@ export class UpdateUserContactInfoController {
     @Body() body: UpdateUserContactInfoBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { address, phone } = body
+    const { address, phone, customerId } = body
 
     const result = await this.registerInvestment.execute({
       address,
       phone,
+      customerId,
       userId: user.sub,
     })
 

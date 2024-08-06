@@ -45,11 +45,14 @@ describe("Update user contact info (E2E)", () => {
       .put("/user/contact-info")
       .send({
         phone: "123456789",
+        customerId: "123",
       })
 
       .set("Authorization", `Bearer ${accessToken}`)
 
     expect(response.statusCode).toBe(200)
+
+    console.log(response.body)
 
     const userOnDatabase = await prisma.user.findUnique({
       where: {
@@ -57,7 +60,10 @@ describe("Update user contact info (E2E)", () => {
       },
     })
 
+    console.log(userOnDatabase)
+
     expect(userOnDatabase?.phone === "123456789").toBeTruthy()
+    expect(userOnDatabase?.customerId === "123").toBeTruthy()
   })
 
   test("[PUT] /user/contact-info", async () => {

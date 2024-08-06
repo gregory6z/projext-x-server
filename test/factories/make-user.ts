@@ -18,7 +18,7 @@ export function makeUser(
       birthDate: fakerFR.date.past(),
       address: fakerFR.location.streetAddress(),
       isAdmin: false,
-      accountNumber: null,
+      bankAccount: null, // Add this line to explicitly set bankAccount to null
       password: fakerFR.internet.password(),
       ...override,
     },
