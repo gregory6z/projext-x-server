@@ -45,7 +45,7 @@ describe("Update user contact info (E2E)", () => {
       .put("/user/contact-info")
       .send({
         phone: "123456789",
-        customerId: "123",
+        customerId: "123456789",
       })
 
       .set("Authorization", `Bearer ${accessToken}`)
@@ -63,7 +63,7 @@ describe("Update user contact info (E2E)", () => {
     console.log(userOnDatabase)
 
     expect(userOnDatabase?.phone === "123456789").toBeTruthy()
-    expect(userOnDatabase?.customerId === "123").toBeTruthy()
+    expect(userOnDatabase?.customerId === "123456789").toBeTruthy()
   })
 
   test("[PUT] /user/contact-info", async () => {

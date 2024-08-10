@@ -2,6 +2,7 @@ import { Body, Controller, HttpCode, Post, UsePipes } from "@nestjs/common"
 import { z } from "zod"
 import { ZodValidationPipe } from "../http/pipes/zod-validation.pipe"
 import { CreateTransactionUseCase } from "@/domain/use-cases/create-transaction"
+import { TransactionPresenter } from "../presenters/transaction.presenter"
 
 const createTransactionBodySchema = z.object({
   accountId: z.string(),
@@ -38,8 +39,9 @@ export class CreateTransactionController {
     }
 
     return {
-      message:
-        "Transaction created successfully. Awaiting payment confirmation.",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      transaction: TransactionPresenter.toHTTP(result.value.transaction),
     }
   }
 }

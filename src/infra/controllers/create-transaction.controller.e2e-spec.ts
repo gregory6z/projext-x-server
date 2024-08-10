@@ -78,4 +78,33 @@ describe("Create transaction (E2E)", () => {
 
     expect(response.statusCode).toBe(401)
   })
+
+  test("[POST] /transaction", async () => {
+    const user = await userFactory.makePrismaUser()
+
+    const accessToken = jwt.sign({
+      sub: user.id.toString(),
+      isAdmin: user.isAdmin,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    })
+
+    const bankAccount = await bankAccountFactory.makePrismaBankAccount({
+      userId: user.id.toString(),
+    })
+
+    const response = await request(app.getHttpServer())
+      .post("/transaction")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({
+        accountId: bankAccount.id.toString(),
+        type: "deposit",
+        amount: 100,
+      })
+
+    expect(response.status).toBe(201)
+
+    expect(response.body.transaction).toHaveProperty("id")
+  })
 })

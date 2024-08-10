@@ -52,6 +52,7 @@ export class CreateUserUseCase {
       email,
       firstName,
       lastName,
+      customerId: null,
       birthDate,
       phone,
       bankAccount: null,
