@@ -8,6 +8,8 @@ export const envSchema = z.object({
 
   STRIPE_SECRET_KEY: z.string(),
 
+  SQUARE_ACCESS_KEY: z.string(),
+
   // RESEND_KEY: z.string(),
   // URL_FRONTEND: z.string().url(),
   // NODE_ENV: z.string().optional().default("development"),

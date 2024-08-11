@@ -34,9 +34,11 @@ import { RegisterInvestmentPurchaseController } from "../controllers/register-in
 import { GetUserController } from "../controllers/get-user.controller"
 import { GetUserUseCase } from "@/domain/use-cases/get-user"
 import { FetchInvestmentPurchaseController } from "../controllers/fetch-investments-purchases.controller"
+import { WebhookController } from "../controllers/webhook.controller"
+import { SquareModule } from "../payment/square/square.module"
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, AuthModule],
+  imports: [DatabaseModule, CryptographyModule, AuthModule, SquareModule],
   controllers: [
     CreateAccountController,
     CreateInvestmentController,
@@ -51,6 +53,7 @@ import { FetchInvestmentPurchaseController } from "../controllers/fetch-investme
     RegisterInvestmentPurchaseController,
     GetUserController,
     FetchInvestmentPurchaseController,
+    WebhookController,
   ],
   providers: [
     CheckAndActivateInvestmentUseCase,

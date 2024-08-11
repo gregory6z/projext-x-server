@@ -12,6 +12,7 @@ import { HttpModule } from "./http/http.module"
     }),
     EnvModule,
     HttpModule,
+
     // SeedModule,
     // StripeNestModule,
   ],
