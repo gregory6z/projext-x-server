@@ -5,12 +5,14 @@ import { Controller, Post, Body, HttpCode, HttpStatus } from "@nestjs/common"
 import { Public } from "../auth/public"
 import { SquareService } from "../payment/square/square.service"
 import { UpdateTransactionStatusUseCase } from "@/domain/use-cases/update-transaction-status"
+import { UpdateStatusInvestmentPurchaseUseCase } from "@/domain/use-cases/update-investment-purchase-status"
 
 @Controller("webhooks")
 export class WebhookController {
   constructor(
     private readonly squareService: SquareService,
     private readonly updateTransactionStatusUseCase: UpdateTransactionStatusUseCase,
+    private readonly updateStatusInvestmentPurchaseUseCase: UpdateStatusInvestmentPurchaseUseCase,
   ) {}
 
   @Public()
@@ -27,14 +29,17 @@ export class WebhookController {
       // },
       "payment.updated": async (payload: any) => {
         const orderId = payload.data.object.payment.order_id
-        console.log(orderId)
+
         const referenceId =
           (await this.squareService.retrieveOrder(orderId)) ?? null
-        console.log(referenceId)
 
         if (payload.data.object.payment.status === "COMPLETED" && referenceId) {
           await this.updateTransactionStatusUseCase.execute({
             transactionId: referenceId,
+            status: "completed",
+          })
+          await this.updateStatusInvestmentPurchaseUseCase.execute({
+            investmentPurchaseId: referenceId,
             status: "completed",
           })
         }

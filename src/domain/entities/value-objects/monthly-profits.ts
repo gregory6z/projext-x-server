@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export interface MonthlyProfitProps {
   month: Date
   profitPercentage: number
@@ -26,7 +25,7 @@ export class MonthlyProfit {
     const totalMonths = 12 * term
     let totalProfitPercentage = 0
 
-    const VARIATION_PERCENTAGE = 1 // Aumenta a variação para 50%
+    // const VARIATION_PERCENTAGE = 1 // Aumenta a variação para 50%
     let currentYear = startDate.getFullYear()
 
     // ...
@@ -42,7 +41,7 @@ export class MonthlyProfit {
       }
 
       const baseProfitPercentage = annualProfitPercentage / 12
-      const variation = VARIATION_PERCENTAGE * baseProfitPercentage
+      // const variation = VARIATION_PERCENTAGE * baseProfitPercentage
 
       let profitPercentage
       if (i < 3) {

@@ -11,16 +11,17 @@ function createProfitsObject(length: number): MonthlyProfit[] {
 }
 
 // Uso:
-const profits = createProfitsObject(2)
+const profits = createProfitsObject(11)
 
 test("calculateNextMonthProfit", async () => {
   const result = await MonthlyProfit.calculateNextMonthProfit({
-    annualProfitPercentage: 0.5,
+    annualProfitPercentage: 0.16,
     startDate: new Date(2022, 2, 1),
     term: 4,
     getExistingProfits: () => Promise.resolve(profits),
   })
-
+  console.log(profits)
+  console.log(result)
   expect(result).toBeDefined()
   expect(result.monthProfit).toBeInstanceOf(MonthlyProfit)
   expect(result.totalProfitPercentage).toBeGreaterThan(0)

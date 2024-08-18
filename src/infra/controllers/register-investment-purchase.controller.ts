@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common"
 
 import { RegisterInvestmentPurchaseUseCase } from "@/domain/use-cases/register-investment-purchase"
+import { InvestmentPurchasePresenter } from "../presenters/investment-purchase.presenter"
 
 const registerInvestmentPurchaseBodySchema = z.object({
   investmentId: z.string(),
@@ -44,6 +45,13 @@ export class RegisterInvestmentPurchaseController {
       throw new BadRequestException()
     }
 
-    return result
+    const { investmentPurchase } = result.value
+
+    return {
+      investmentPurchase:
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        InvestmentPurchasePresenter.toHTTP(investmentPurchase),
+    }
   }
 }
